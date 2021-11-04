@@ -3,12 +3,11 @@
 }
 .logoImgContainer{
     grid-area: logo;
+    display: block;
+    margin: auto;
 }
 .logoImg{
     padding: 20px;
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
     width: 90%;
 }
 .navBar{
@@ -58,7 +57,6 @@
 /*		 		Fullscreen			 */
 @media screen and (min-width: 59em) {
     .header{
-        height: 24vh;
         display: grid;
         grid-template-columns: 33vw 34vw 33vw;
         grid-template-rows: 20vh 4vh;
