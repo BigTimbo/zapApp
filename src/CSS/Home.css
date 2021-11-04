@@ -1,0 +1,44 @@
+.home{
+    min-height: 75vh;
+}
+.homeContent{
+    width: 80vw;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: justify;
+    word-spacing: 0.2vw;
+}
+.homeContent p{
+    color: #565656;
+}
+.homeContent h1{
+    text-align: center;
+    color: #666235;
+    padding-bottom: 20px;
+    border-bottom: solid #666235 5px;
+}
+.homeBox1, .homeBox2{
+    display: grid;
+    border: #666235 solid 3px;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 20px;
+}
+.homeBox1 h2, .homeBox2 h2{
+    padding-bottom: 20px;
+    border-bottom: solid #666235 5px;
+    color: #666235;
+    width: 30%;
+}
+.homeBox1 h2{
+    margin-right: auto;
+    text-align: left;
+}
+.homeBox2 h2{
+    margin-left: auto;
+    text-align: right;
+}
+body{
+    overflow-x: hidden;
+}

@@ -3,7 +3,7 @@
     background-image: url("../images/pangolin-index.jpg");
 
     /* Set a specific height */
-    min-height: 500px;
+    min-height: 40vh;
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;

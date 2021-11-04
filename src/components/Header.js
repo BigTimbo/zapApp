@@ -2,6 +2,7 @@ import React from 'react';
 import Logo from '../images/Logo.png';
 import {Link} from 'react-router-dom';
 import '../CSS/Header.css';
+import MenuIcon from '../images/menu-icon.png';
 
 function header() {
     return (
@@ -12,8 +13,16 @@ function header() {
             <div className="navBar">
                 <Link className="navLink" to="/about">About Us</Link>
                 <Link className="navLink" to="/report">Report a Sighting</Link>
-                <Link className="navLink" to="/login">Login</Link>
                 <Link className="navLink" to="/contact">Contact Us</Link>
+            </div>
+            <div className="navDropdown">
+                <img className="navMenu" src={MenuIcon} alt="Menu Icon"/>
+                <div className="dropdownContent">
+                    <Link className="navLink" to="/">Home</Link>
+                    <Link className="navLink" to="/about">About Us</Link>
+                    <Link className="navLink" to="/report">Report a Sighting</Link>
+                    <Link className="navLink" to="/contact">Contact Us</Link>
+                </div>
             </div>
         </div>
     )

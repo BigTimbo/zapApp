@@ -1,0 +1,16 @@
+/*		 		Fullscreen			 */
+@media screen and (min-width: 59em), screen and (min-height: 62em) {
+    .about{
+        min-height: 75vh;
+    }
+}
+/*		 	Tablet/Mobile				 */
+@media screen and  (max-width: 59em), screen and (max-height: 62em) {
+    .about{
+        min-height: 83vh;
+    }
+}
+/*		 	Mobile				 */
+@media screen and (max-width: 40em){
+
+}
