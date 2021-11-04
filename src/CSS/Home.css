@@ -31,14 +31,20 @@
     color: #666235;
     width: 30%;
 }
-.homeBox1 h2{
-    margin-right: auto;
-    text-align: left;
+/*		 		Fullscreen			 */
+@media screen and (min-width: 59em), screen and (min-height: 62em) {
+    .homeBox1 h2{
+        margin-right: auto;
+        text-align: left;
+    }
+    .homeBox2 h2{
+        margin-left: auto;
+        text-align: right;
+    }
 }
-.homeBox2 h2{
-    margin-left: auto;
-    text-align: right;
-}
-body{
-    overflow-x: hidden;
+/*		 	Tablet/Mobile				 */
+@media screen and  (max-width: 59em), screen and (max-height: 62em) {
+    .homeBox1 h2, .homeBox2 h2{
+        text-align: center;
+    }
 }

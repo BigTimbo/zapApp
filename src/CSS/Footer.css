@@ -6,21 +6,11 @@
     right: 0;
     width: 100%;
     display: block;
-    height: 9vh;
-}
-.socials{
-    display: grid;
-    grid-template-columns: 42.5vw 3vw 1vw 3vw 0.5vw 0.5vw 3vw 1vw 3vw 42.5vw;
-    grid-template-rows: 5vh 3vh 1vh;
-    grid-template-areas:
-    "text text text text text text text text text text"
-    "m1 twitter m3 facebook m5 m6 youtube m8 instagram m10"
-    "b1 b2 b3 b4 b5 b6 b7 b8 b9 b10";
 }
 .socialText{
     grid-area: text;
     text-align: center;
-    font-size: 1.5vw;
+    font-size: 1vw;
     color: white;
     margin-top: auto;
     margin-bottom: auto;
@@ -45,4 +35,46 @@
 }
 .icon:hover{
     width:55%;
+}
+
+/*		 		Fullscreen			 */
+@media screen and (min-width: 59em) {
+    .footer{
+        height: 9vh;
+    }
+    .socials{
+        display: grid;
+        grid-template-columns: 42.5vw 3vw 1vw 3vw 1vw 3vw 1vw 3vw 42.5vw;
+        grid-template-rows: 5vh 3vh 1vh;
+        grid-template-areas:
+    "t1 text text text text text text text t10"
+    "m1 twitter m3 facebook m5 youtube m8 instagram m10"
+    "b1 b2 b3 b4 b5 b7 b8 b9 b10";
+    }
+    .socialText{
+        font-size: 1vw;
+    }
+}
+/*		 	Tablet/Mobile				 */
+@media screen and  (max-width: 59em) {
+    .footer{
+        height: 15vh;
+    }
+    .socials{
+        display: grid;
+        grid-template-columns: 36.5vw 7vw 1vw 7vw 1vw 7vw 1vw 7vw 36.5vw;
+        grid-template-rows: 5vh 3vh 1vh;
+        grid-template-areas:
+    "t1 text text text text text text text t10"
+    "m1 twitter m3 facebook m5 youtube m8 instagram m10"
+    "b1 b2 b3 b4 b5 b7 b8 b9 b10";
+    }
+    .socialText{
+        font-size: 2vw;
+    }
+}
+@media screen and  (max-width: 40em) {
+    .socialText{
+        font-size: 3vw;
+    }
 }

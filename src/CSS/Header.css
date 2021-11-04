@@ -1,18 +1,22 @@
 .header{
     background-color: #a98c6a;
 }
+.logoImgContainer{
+    grid-area: logo;
+}
 .logoImg{
     padding: 20px;
-    width: 40%;
     display: block;
     margin-right: auto;
     margin-left: auto;
+    width: 90%;
 }
 .navBar{
     text-align: center;
     padding-bottom: 20px;
     font-size: 1.2vw;
     font-weight: bold;
+    grid-area: text;
 }
 .navLink{
     padding-right: 2vw;
@@ -50,17 +54,24 @@
     text-align: center;
 }
 
+
 /*		 		Fullscreen			 */
-@media screen and (min-width: 59em), screen and (min-height: 62em) {
+@media screen and (min-width: 59em) {
     .header{
-        height: 16vh;
+        height: 24vh;
+        display: grid;
+        grid-template-columns: 33vw 34vw 33vw;
+        grid-template-rows: 20vh 4vh;
+        grid-template-areas:
+    "m1 logo m3"
+    "b1 text b3";
     }
     .navDropdown{
         display: none;
     }
 }
 /*		 	Tablet/Mobile				 */
-@media screen and  (max-width: 59em), screen and (max-height: 62em) {
+@media screen and  (max-width: 59em){
     .header{
         height: 8vh;
     }
@@ -75,8 +86,4 @@
         display: inline-block;
         height: 7vh;
     }
-}
-/*		 	Mobile				 */
-@media screen and (max-width: 40em){
-
 }

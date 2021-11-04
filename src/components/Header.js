@@ -7,7 +7,7 @@ import MenuIcon from '../images/menu-icon.png';
 function header() {
     return (
         <div className="header">
-            <Link to="/">
+            <Link className="logoImgContainer" to="/">
                 <img className="logoImg" src={Logo} alt="Logo"/>
             </Link>
             <div className="navBar">

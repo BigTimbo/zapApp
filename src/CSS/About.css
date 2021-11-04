@@ -1,3 +1,23 @@
+.about{
+    text-align: center;
+    display: flex;
+}
+.aboutContent{
+    width: 80vw;
+    display: block;
+    margin: auto;
+}
+.aboutContent p{
+    color: #565656;
+    margin-bottom: 50px;
+}
+.aboutContent h1{
+    padding-bottom: 20px;
+    border-bottom: solid #666235 5px;
+    color: #666235;
+    width: 40%;
+    margin: 0 auto 50px auto;
+}
 /*		 		Fullscreen			 */
 @media screen and (min-width: 59em), screen and (min-height: 62em) {
     .about{
