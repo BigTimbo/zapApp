@@ -1,7 +1,7 @@
 /*		 		Fullscreen			 */
 @media screen and (min-width: 59em), screen and (min-height: 62em) {
     .report{
-        min-height: 75vh;
+        min-height: 76vh;
     }
 }
 /*		 	Tablet/Mobile				 */
@@ -12,5 +12,7 @@
 }
 /*		 	Mobile				 */
 @media screen and (max-width: 40em){
-
+    .report{
+        min-height: 82vh;
+    }
 }

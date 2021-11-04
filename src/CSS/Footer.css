@@ -74,6 +74,9 @@
     }
 }
 @media screen and  (max-width: 40em) {
+    .footer{
+        height: 10vh;
+    }
     .socialText{
         font-size: 3vw;
     }

@@ -1,16 +1,14 @@
+
+
 /*		 		Fullscreen			 */
 @media screen and (min-width: 59em), screen and (min-height: 62em) {
     .contact{
-        min-height: 75vh;
+        min-height: 76vh;
     }
 }
 /*		 	Tablet/Mobile				 */
 @media screen and  (max-width: 59em), screen and (max-height: 62em) {
     .contact{
-        min-height: 83vh;
+        min-height: 82vh;
     }
-}
-/*		 	Mobile				 */
-@media screen and (max-width: 40em){
-
 }
