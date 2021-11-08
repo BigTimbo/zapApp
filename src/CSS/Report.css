@@ -6,17 +6,16 @@
     margin: auto;
 }
 .reportForm{
-    width: 40vw;
+    width: 80vw;
     margin: auto;
     text-align: center;
     border: #666235 solid 3px;
     border-radius: 10px;
-    background-color: #e1e9eb;
 }
 fieldset{
     border: none;
 }
-input, textarea{
+input, textarea, select{
     width: 100%;
     min-height: 2vh;
 }
