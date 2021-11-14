@@ -17,13 +17,13 @@ class Report extends React.Component{
         evt.preventDefault();
         const data = JSON.stringify({
             'location' : this.state.location,
-            'media' : this.state.media,
+            'media' : this.state.media.replace("C:\\fakepath\\", ""),
             'alive' : this.state.alive,
             'causeOfDeath' : this.state.causeOfDeath,
             'notes' : this.state.notes
         });
         console.log(data);
-        fetch('https://ta459.brighton.domains/zapapp/PHP/api.php', {
+        fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: data
@@ -59,7 +59,7 @@ class Report extends React.Component{
                             <legend>
                                 <h2><label htmlFor="media">Please upload an image:</label></h2>
                             </legend>
-                            <input onChange={(evt) => this.setState({media: evt.target.value})}/>
+                            <input type="file" onChange={(evt) => this.setState({media: evt.target.value})}/>
                         </fieldset>
                         <fieldset>
                             <legend>
