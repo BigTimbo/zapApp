@@ -16,19 +16,19 @@ class api extends db
         }
     }
     private function post(){
-        $body = file_get_contents('php://input');
-        $json = json_decode($body);
-        $location = $json->location;
-        $media = $json->media;
-        $alive = $json->alive;
-        $causeOfDeath = $json->causeOfDeath;
-        $notes = $json->notes;
+//        $body = file_get_contents('php://input');
+//        $json = json_decode($body);
+//        $location = $json->location;
+//        $media = $json->media;
+//        $alive = $json->alive;
+//        $causeOfDeath = $json->causeOfDeath;
+//        $notes = $json->notes;
         http_response_code(201);
-//        $this->response['location'] = $location;
-//        $this->response['media'] = $media;
-//        $this->response['alive'] = $alive;
-//        $this->response['causeOfDeath'] = $causeOfDeath;
-//        $this->response['notes'] = $notes;
+        $location = $_POST['location'];
+        $media = $_FILES['media']['name'];
+        $alive = $_POST['alive'];
+        $causeOfDeath = $_POST['causeOfDeath'];
+        $notes = $_POST['notes'];
         $stmt = $this->connect()->prepare('INSERT INTO sightings(location, media, alive, causeOfDeath, notes) VALUES(?, ?, ?, ?, ?)');
         $stmt->execute([$location, $media, $alive, $causeOfDeath, $notes]);
         $this->response['id'] = (int)$this->connect()->lastInsertId();
