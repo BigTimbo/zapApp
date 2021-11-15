@@ -13,13 +13,15 @@ class Report extends React.Component{
             notes: null
         }
     }
-    componentDidMount() {
-        this.getLocation();
-    }
     async sendPost(evt) {
         evt.preventDefault();
         const data = new FormData();
-        data.append('location', this.state.location);
+        const getLocation = await this.getLocation();
+        const location = {
+            "lng" : getLocation.coords.longitude,
+            "lat" : getLocation.coords.latitude
+        }
+        data.append('location', JSON.stringify(location));
         data.append( 'media', this.state.media, this.state.media.name);
         data.append('alive', this.state.alive);
         data.append('causeOfDeath', this.state.causeOfDeath);
@@ -32,18 +34,9 @@ class Report extends React.Component{
         console.log(response);
     }
     getLocation(){
-        const successCallback = (pos) => {
-            console.log(pos);
-            const location = {
-                "lng" : pos.coords.longitude,
-                "lat" : pos.coords.latitude
-            }
-            this.setState({location: JSON.stringify(location)})
-        };
-        const errorCallback = (err) => {
-            console.log(err);
-        };
-        navigator.geolocation.watchPosition(successCallback, errorCallback);
+        return new Promise((successCallback, errorCallback) => {
+            navigator.geolocation.watchPosition(successCallback, errorCallback);
+        });
     }
     formVisible(evt){
         this.setState({alive: evt.target.value});
@@ -80,7 +73,7 @@ class Report extends React.Component{
                             <legend>
                                 <h2><label htmlFor="media">Please upload an image:</label></h2>
                             </legend>
-                            <input type="file" onChange={(evt) => this.setState({media : evt.target.files[0]})}/>
+                            <input name="media" id="media" type="file" onChange={(evt) => this.setState({media : evt.target.files[0]})}/>
                         </fieldset>
                         <fieldset>
                             <legend>
