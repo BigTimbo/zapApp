@@ -16,13 +16,6 @@ class api extends db
         }
     }
     private function post(){
-//        $body = file_get_contents('php://input');
-//        $json = json_decode($body);
-//        $location = $json->location;
-//        $media = $json->media;
-//        $alive = $json->alive;
-//        $causeOfDeath = $json->causeOfDeath;
-//        $notes = $json->notes;
         http_response_code(201);
         $location = $_POST['location'];
         $mediaName = $_FILES['media']['name'];
@@ -51,9 +44,6 @@ class api extends db
     private function display()
     {
         echo json_encode($this->response, JSON_PRETTY_PRINT);
-    }
-    public function test(){
-        echo '<p>hello world!</p>';
     }
 }
 $Api = new api();
