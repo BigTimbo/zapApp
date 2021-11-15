@@ -13,7 +13,7 @@ function header() {
             <div className="navBar">
                 <Link className="navLink" to="/about">About Us</Link>
                 <Link className="navLink" to="/report">Report a Sighting</Link>
-                <Link className="navLink" to="/contact">Contact Us</Link>
+                <Link className="navLink" to="/sightings">All Sightings</Link>
             </div>
             <div className="navDropdown">
                 <img className="navMenu" src={MenuIcon} alt="Menu Icon"/>
@@ -21,7 +21,7 @@ function header() {
                     <Link className="navLink" to="/">Home</Link>
                     <Link className="navLink" to="/about">About Us</Link>
                     <Link className="navLink" to="/report">Report a Sighting</Link>
-                    <Link className="navLink" to="/contact">Contact Us</Link>
+                    <Link className="navLink" to="/sightings">All Sightings</Link>
                 </div>
             </div>
         </div>

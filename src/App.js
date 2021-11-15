@@ -6,7 +6,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import Report from "./pages/Report";
-import Contact from "./pages/Contact";
+import Sightings from "./pages/Sightings";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/About" element={<About />} />
                 <Route path="/Report" element={<Report />} />
-                <Route path="/Contact" element={<Contact />} />
+                <Route path="/Sightings" element={<Sightings />} />
             </Routes>
         </Router>
         <Footer />

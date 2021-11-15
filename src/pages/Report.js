@@ -35,18 +35,16 @@ class Report extends React.Component{
                     <form className="reportForm" onSubmit={(evt) => this.sendPost(evt)}>
                         <h1>Report a Sighting</h1>
                         <h2>Please detail the conditions of your sighting here:</h2>
-                        <fieldset>
-                            <legend>
-                                <h2><label htmlFor="location">Please mark your location:</label></h2>
-                            </legend>
-                            <input onChange={(evt) => this.setState({location: evt.target.value})}/>
-                        </fieldset>
+                        {/*<fieldset>*/}
+                        {/*    <legend>*/}
+                        {/*        <h2><label htmlFor="location">Please mark your location:</label></h2>*/}
+                        {/*    </legend>*/}
+                        {/*    <input onChange={(evt) => this.setState({location: evt.target.value})}/>*/}
+                        {/*</fieldset>*/}
                         <fieldset>
                             <legend>
                                 <h2><label htmlFor="media">Please upload an image:</label></h2>
                             </legend>
-                            {/*this.setState({media : evt.target.files[0]})*/}
-                            {/*this.setState({media : evt.target.value})*/}
                             <input type="file" onChange={(evt) => this.setState({media : evt.target.files[0]})}/>
                         </fieldset>
                         <fieldset>
