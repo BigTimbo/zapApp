@@ -50,10 +50,10 @@ class api extends db
                     'notes' => $row['notes']
                 ];
             }
-            $this->display();
         }else{
             $this->response['result'] = 'No results';
         }
+        $this->display();
     }
     private function display()
     {

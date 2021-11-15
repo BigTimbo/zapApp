@@ -14,7 +14,6 @@ class Sightings extends React.Component {
     async sendGet(){
         const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php');
         const content = await response.json();
-
         const contentString = JSON.stringify(content);
         this.setState({content : contentString});
     }
