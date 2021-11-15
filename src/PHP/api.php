@@ -16,7 +16,6 @@ class api extends db
         }
     }
     private function post(){
-        http_response_code(201);
         $location = $_POST['location'];
         $mediaName = $_FILES['media']['name'];
         $alive = $_POST['alive'];
@@ -24,8 +23,9 @@ class api extends db
         $notes = $_POST['notes'];
         $stmt = $this->connect()->prepare('INSERT INTO sightings(location, media, alive, causeOfDeath, notes) VALUES(?, ?, ?, ?, ?)');
         $stmt->execute([$location, $mediaName, $alive, $causeOfDeath, $notes]);
-        $this->response['id'] = (int)$this->connect()->lastInsertId();
+        $this->response['result'] = 'Successfully added';
         $this->display();
+        http_response_code(201);
         $mediaIMG = $_FILES['media']['tmp_name'];
         $mediaSize = $_FILES['media']['size'];
         $extArray = explode('.', $mediaName);
@@ -39,7 +39,21 @@ class api extends db
     }
 
     private function get(){
-        echo 'get';
+        $stmt = $this->connect()->query('SELECT * FROM sightings');
+        if ($stmt->rowCount() > 0){
+            while($row = $stmt->fetch()){
+                $this->response['sightings'][] = [
+                    'location' => $row['location'],
+                    'media' => $row['media'],
+                    'alive' => $row['alive'],
+                    'causeOfDeath' => $row['causeOfDeath'],
+                    'notes' => $row['notes']
+                ];
+            }
+            $this->display();
+        }else{
+            $this->response['result'] = 'No results';
+        }
     }
     private function display()
     {
