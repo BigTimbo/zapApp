@@ -37,12 +37,22 @@ class Report extends React.Component{
             navigator.geolocation.watchPosition(successCallback, errorCallback);
         });
     }
-    formVisible(evt){
-        this.setState({alive: evt.target.value});
-        if (evt.target.value === "0"){
-            this.setState({visible: true})
-        }else{
-            this.setState({visible: false})
+    handleInput(evt){
+        switch (evt.target.name){
+            case 'alive':
+                this.setState({alive: evt.target.value});
+                if (evt.target.value === "0"){
+                    this.setState({visible: true})
+                }else{
+                    this.setState({visible: false})
+                }
+                break;
+            case 'media':
+                this.setState({media : evt.target.files[0]})
+                break;
+            default :
+                this.setState({[evt.target.name] : evt.target.value})
+                break;
         }
     }
     render(){
@@ -51,7 +61,7 @@ class Report extends React.Component{
                 <legend>
                     <h2><label htmlFor="causeOfDeath">Cause of Death?</label></h2>
                 </legend>
-                <select name="causeOfDeath" defaultValue="null" id="causeOfDeath" onChange={(evt) => this.setState({causeOfDeath: evt.target.value})}>
+                <select name="causeOfDeath" defaultValue="null" id="causeOfDeath" onChange={(evt) => this.handleInput(evt)}>
                     <option value="null">-- select an option --</option>
                     <option value="electrocution">Fence Death: Electrocution</option>
                     <option value="caught">Fence Death: Caught on non-electrified fence</option>
@@ -72,13 +82,13 @@ class Report extends React.Component{
                             <legend>
                                 <h2><label htmlFor="media">Please upload an image:</label></h2>
                             </legend>
-                            <input name="media" id="media" type="file" onChange={(evt) => this.setState({media : evt.target.files[0]})}/>
+                            <input name="media" id="media" type="file" onChange={(evt) => this.handleInput(evt)} />
                         </fieldset>
                         <fieldset>
                             <legend>
                                 <h2><label htmlFor="alive">Is the Pangolin Alive?</label></h2>
                             </legend>
-                            <select name="alive" id="alive" defaultValue="1" onChange={evt => this.formVisible(evt)}>
+                            <select name="alive" id="alive" defaultValue="1" onChange={(evt) => this.handleInput(evt)}>
                                 <option value="1">Yes</option>
                                 <option value="0">No</option>
                             </select>
@@ -88,7 +98,7 @@ class Report extends React.Component{
                             <legend>
                                 <h2><label htmlFor="notes">Notes</label></h2>
                             </legend>
-                            <textarea placeholder="Type your notes here...." name="notes" className="notes" onChange={(evt) => this.setState({notes: evt.target.value})} />
+                            <textarea placeholder="Type your notes here...." name="notes" className="notes" onChange={(evt) => this.handleInput(evt)} />
                             <span className="notes_error" />
                         </fieldset>
                         <input name="btnSubmit" type="submit" className="submit" value="Submit"/>
