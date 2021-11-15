@@ -34,7 +34,7 @@
     /*width: 50%;*/
 }
 .icon:hover{
-    transform: scale(1.2, 1.2);
+    transform: scale(1.2);
 }
 
 /*		 		Fullscreen			 */
@@ -73,10 +73,10 @@
         font-size: 2vw;
     }
     .socials img{
-        transform: scale(0.8, 0.8);
+        transform: scale(0.8);
     }
     .icon:hover{
-        transform: scale(1, 1);
+        transform: scale(1);
     }
 }
 @media screen and  (max-width: 40em) {

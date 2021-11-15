@@ -8,7 +8,6 @@
     padding-bottom: 10px;
 }
 .reportForm{
-    width: 80vw;
     margin: auto;
     text-align: center;
     border: #666235 solid 3px;
@@ -33,10 +32,16 @@ textarea{
     .report{
         min-height: 76vh;
     }
+    .reportForm{
+        width: 60vw;
+    }
 }
 /*		 	Tablet/Mobile				 */
 @media screen and  (max-width: 59em), screen and (max-height: 62em) {
     .report{
         min-height: 82vh;
+    }
+    .reportForm{
+        width: 90vw;
     }
 }

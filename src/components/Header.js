@@ -8,7 +8,7 @@ function header() {
     return (
         <div className="header">
             <Link className="logoImgContainer" to="/">
-                <img className="logoImg" src={Logo} alt="Logo"/>
+                <img width="1024px" height="256px" className="logoImg" src={Logo} alt="Logo"/>
             </Link>
             <div className="navBar">
                 <Link className="navLink" to="/about">About Us</Link>
