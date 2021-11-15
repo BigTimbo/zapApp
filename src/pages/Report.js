@@ -69,9 +69,7 @@ class Report extends React.Component{
                     <option value="other">Other</option>
                 </select>
             </fieldset>
-        ) : (
-            ""
-        );
+        ) : "";
         return(
             <div className="report">
                 <div className="reportContent">
