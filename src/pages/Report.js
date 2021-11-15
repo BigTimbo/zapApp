@@ -6,7 +6,6 @@ class Report extends React.Component{
         super(props);
         this.state = {
             visible: false,
-            location: null,
             media: null,
             alive: 1,
             causeOfDeath: null,
