@@ -25,15 +25,34 @@ class api extends db
 //        $notes = $json->notes;
         http_response_code(201);
         $location = $_POST['location'];
-        $media = $_FILES['media']['name'];
+        $mediaName = $_FILES['media']['name'];
         $alive = $_POST['alive'];
         $causeOfDeath = $_POST['causeOfDeath'];
         $notes = $_POST['notes'];
         $stmt = $this->connect()->prepare('INSERT INTO sightings(location, media, alive, causeOfDeath, notes) VALUES(?, ?, ?, ?, ?)');
-        $stmt->execute([$location, $media, $alive, $causeOfDeath, $notes]);
+        $stmt->execute([$location, $mediaName, $alive, $causeOfDeath, $notes]);
         $this->response['id'] = (int)$this->connect()->lastInsertId();
         $this->display();
+        $errors = [];
+        $mediaIMG = $_FILES['media']['tmp_name'];
+        $mediaSize = $_FILES['media']['size'];
+        $mediaExt = strtolower((string)explode('.', $mediaName));
+        $extensions = ['jpg', 'jpeg', 'png', 'gif'];
+        $path = '../images/userImages/';
+        $file = $path . $mediaName;
+        if (!in_array($mediaExt, $extensions)) {
+            $errors[] = 'Extension not allowed: ' . $mediaName;
+        }
+
+        if ($mediaSize > 2097152) {
+            $errors[] = 'File size exceeds limit: ' . $mediaName;
+        }
+
+        if (empty($errors)) {
+            move_uploaded_file($mediaIMG, $file);
+        }
     }
+
     private function get(){
         echo 'get';
     }
