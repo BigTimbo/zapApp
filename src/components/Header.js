@@ -16,7 +16,7 @@ function header() {
                 <Link className="navLink" to="/sightings">All Sightings</Link>
             </div>
             <div className="navDropdown">
-                <img className="navMenu" src={MenuIcon} alt="Menu Icon"/>
+                <img width="50px" height="50px" className="navMenu" src={MenuIcon} alt="Menu Icon"/>
                 <div className="dropdownContent">
                     <Link className="navLink" to="/">Home</Link>
                     <Link className="navLink" to="/about">About Us</Link>

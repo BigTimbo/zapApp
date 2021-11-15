@@ -31,10 +31,10 @@
     display: block;
     margin-right: auto;
     margin-left: auto;
-    width: 50%;
+    /*width: 50%;*/
 }
 .icon:hover{
-    width:55%;
+    transform: scale(1.2, 1.2);
 }
 
 /*		 		Fullscreen			 */
@@ -71,6 +71,12 @@
     }
     .socialText{
         font-size: 2vw;
+    }
+    .socials img{
+        transform: scale(0.8, 0.8);
+    }
+    .icon:hover{
+        transform: scale(1, 1);
     }
 }
 @media screen and  (max-width: 40em) {

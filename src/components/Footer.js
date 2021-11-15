@@ -14,22 +14,22 @@ function header() {
                 </div>
                 <div className="twitter">
                     <a href="/">
-                        <img className="icon" src={Twitter} alt="Twitter Icon"/>
+                        <img width="30px" height="30px" className="icon" src={Twitter} alt="Twitter Icon"/>
                     </a>
                 </div>
                 <div className="facebook">
                     <a href="/">
-                        <img className="icon" src={Facebook} alt="Facebook Icon"/>
+                        <img width="30px" height="30px" className="icon" src={Facebook} alt="Facebook Icon"/>
                     </a>
                 </div>
                 <div className="instagram">
                     <a href="/">
-                        <img className="icon" src={Instagram} alt="Instagram Icon"/>
+                        <img width="30px" height="30px" className="icon" src={Instagram} alt="Instagram Icon"/>
                     </a>
                 </div>
                 <div className="youtube">
                     <a href="/">
-                        <img className="icon" src={Youtube} alt="Youtube Icon"/>
+                        <img width="30px" height="30px" className="icon" src={Youtube} alt="Youtube Icon"/>
                     </a>
                 </div>
             </div>

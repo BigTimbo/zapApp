@@ -26,7 +26,6 @@
     color: white;
 }
 .navMenu{
-    height: 6vh;
     padding: 1vh;
 }
 .dropdownContent {
@@ -70,9 +69,6 @@
 }
 /*		 	Tablet/Mobile				 */
 @media screen and  (max-width: 59em){
-    .header{
-        height: 8vh;
-    }
     .navBar{
         display: none;
     }

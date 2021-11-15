@@ -4,6 +4,8 @@
 }
 .reportContent{
     margin: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 .reportForm{
     width: 80vw;
