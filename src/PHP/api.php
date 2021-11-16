@@ -17,7 +17,7 @@ class api extends db
     }
     private function post(){
         $location = $_POST['location'];
-        $mediaName = $_FILES['media']['name'];
+        $mediaName = $_POST['media'];
         $alive = $_POST['alive'];
         $causeOfDeath = $_POST['causeOfDeath'];
         $notes = $_POST['notes'];
@@ -26,16 +26,16 @@ class api extends db
         $this->response['result'] = 'Successfully added';
         $this->display();
         http_response_code(201);
-        $mediaIMG = $_FILES['media']['tmp_name'];
-        $mediaSize = $_FILES['media']['size'];
-        $extArray = explode('.', $mediaName);
-        $mediaExt = strtolower(end($extArray));
-        $extensions = ['jpg', 'jpeg', 'png', 'gif'];
-        $path = '../images/userImages/';
-        $file = $path . $mediaName;
-        if (in_array($mediaExt, $extensions) && $mediaSize < 2097152) {
-            move_uploaded_file($mediaIMG, $file);
-        }
+//        $mediaIMG = $_FILES['media']['tmp_name'];
+//        $mediaSize = $_FILES['media']['size'];
+//        $extArray = explode('.', $mediaName);
+//        $mediaExt = strtolower(end($extArray));
+//        $extensions = ['jpg', 'jpeg', 'png', 'gif'];
+//        $path = '../images/userImages/';
+//        $file = $path . $mediaName;
+//        if (in_array($mediaExt, $extensions) && $mediaSize < 2097152) {
+//            move_uploaded_file($mediaIMG, $file);
+//        }
     }
 
     private function get(){

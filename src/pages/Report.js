@@ -14,44 +14,65 @@ class Report extends React.Component{
     }
     async sendPost(evt) {
         evt.preventDefault();
-        const data = new FormData();
         const getLocation = await this.getLocation();
-        const location = {
+        const location = JSON.stringify({
             "lng" : getLocation.coords.longitude,
             "lat" : getLocation.coords.latitude
+        })
+        if (navigator.onLine){
+            const data = new FormData();
+            data.append('location', location);
+            data.append( 'media', this.state.media);
+            data.append('alive', this.state.alive);
+            data.append('causeOfDeath', this.state.causeOfDeath);
+            data.append('notes', this.state.notes);
+            const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
+                method: 'POST',
+                body: data
+            });
+            console.log(response);
+        }else{
+
+            const data = JSON.stringify({
+                'location' : location,
+                'media' : this.state.media,
+                'alive' : this.state.alive,
+                'causeOfDeath' : this.state.causeOfDeath,
+                'notes' : this.state.notes
+            })
+            localStorage.setItem('data', data);
         }
-        data.append('location', JSON.stringify(location));
-        data.append( 'media', this.state.media, this.state.media.name);
-        data.append('alive', this.state.alive);
-        data.append('causeOfDeath', this.state.causeOfDeath);
-        data.append('notes', this.state.notes);
-        console.log(data);
-        const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
-            method: 'POST',
-            body: data
-        });
-        console.log(response);
+    }
+    getBase64Image(img) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onloadend = () => resolve(reader.result)
+            reader.onerror = reject
+            reader.readAsDataURL(img)
+        })
     }
     getLocation(){
-        return new Promise((successCallback, errorCallback) => {
-            navigator.geolocation.watchPosition(successCallback, errorCallback);
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.watchPosition(resolve, reject);
         });
     }
-    handleInput(evt){
-        switch (evt.target.name){
+    async handleInput(evt) {
+        switch (evt.target.name) {
             case 'alive':
                 this.setState({alive: evt.target.value});
-                if (evt.target.value === "0"){
+                if (evt.target.value === "0") {
                     this.setState({visible: true})
-                }else{
+                } else {
                     this.setState({visible: false})
                 }
                 break;
             case 'media':
-                this.setState({media : evt.target.files[0]})
+                const media = await this.getBase64Image(evt.target.files[0]);
+                this.setState({media: media});
+                console.log(this.state.media);
                 break;
             default :
-                this.setState({[evt.target.name] : evt.target.value})
+                this.setState({[evt.target.name]: evt.target.value})
                 break;
         }
     }
