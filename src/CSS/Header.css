@@ -4,11 +4,10 @@
 .logoImgContainer{
     grid-area: logo;
     display: block;
-    margin: auto;
-    transform: scale(0.5);
 }
 .logoImg{
-    padding: 20px;
+    height: 100%;
+    width: 100%;
 }
 .navBar{
     text-align: center;
@@ -60,7 +59,7 @@
         grid-template-columns: 33vw 34vw 33vw;
         grid-template-rows: 20vh 4vh;
         grid-template-areas:
-    "logo logo logo"
+    "m1 logo m3"
     "b1 text b3";
     }
     .navDropdown{
