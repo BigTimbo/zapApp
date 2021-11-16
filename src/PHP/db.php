@@ -16,7 +16,7 @@ class db
             return new PDO('mysql:host=' . $host . ';dbname='.$dbName.';charset=utf8mb4', $user, $pwd);
         }catch(Exception $e){
             print "Connection failed: ".$e->getMessage();
-            die();
+            return http_response_code(500);
         }
     }
 }

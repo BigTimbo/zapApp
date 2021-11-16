@@ -4,6 +4,13 @@
 .sightingsContent{
 
 }
+.loadingContainer{
+    display: flex;
+    align-items: center;
+    height: 80vh;
+    justify-content: center;
+}
+
 /*		 		Fullscreen			 */
 @media screen and (min-width: 59em), screen and (min-height: 62em) {
     .sightings{
@@ -13,6 +20,6 @@
 /*		 	Tablet/Mobile				 */
 @media screen and  (max-width: 59em), screen and (max-height: 62em) {
     .sightings{
-        min-height: 82vh;
+        min-height: 80vh;
     }
 }
