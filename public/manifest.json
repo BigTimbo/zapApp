@@ -1,7 +1,8 @@
 {
   "short_name": "Zap App",
   "name": "A Web app to the charity organisation of saving the Pangolin species in South Africa.",
-  "start_url": "./App.js",
+  "start_url": ".",
+  "display": "standalone",
   "icons": [
     {
       "src": "\/android-icon-36x36.png",
@@ -46,7 +47,6 @@
       "purpose": "any maskable"
     }
   ],
-  "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }

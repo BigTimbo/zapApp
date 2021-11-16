@@ -7,8 +7,8 @@ import MenuIcon from '../images/menu-icon.png';
 function header() {
     return (
         <div className="header">
-            <Link className="logoImgContainer" to="/">
-                <img width="1024px" height="256px" className="logoImg" src={Logo} alt="Logo"/>
+            <Link className="logoContainer" to="/">
+                <img width="1024px" height="256px" className="logoImg" src={Logo} alt="Logo for Home Navigation"/>
             </Link>
             <div className="navBar">
                 <Link className="navLink" to="/about">About Us</Link>

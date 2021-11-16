@@ -1,12 +1,13 @@
 .header{
     background-color: #a98c6a;
 }
-.logoImgContainer{
+.logoContainer{
     grid-area: logo;
     display: flex;
+    color: transparent;
 }
 .logoImg{
-    height: 100%;
+    height: auto;
     width: 100%;
     max-height: 128px;
     max-width: 512px;
