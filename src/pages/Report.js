@@ -1,19 +1,52 @@
 import React from 'react';
 import '../CSS/Report.css';
+import Loading from "../images/loading.gif";
 
 class Report extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            visible: false,
+            CoDVisible: false,
             media: null,
             alive: 1,
             causeOfDeath: null,
-            notes: null
+            notes: null,
+            storedReport: false,
+            loading : false,
+            storedUploaded: false,
+            successfulReport: false
         }
     }
+    async componentDidMount() {
+        if (navigator.onLine){
+            const cachedJson = localStorage.getItem('data');
+            if (cachedJson){
+                this.setState({storedReport: true});
+                this.setState({storedUploaded: false});
+                const cachedReport = JSON.parse(cachedJson);
+                const data = new FormData();
+                data.append('location', cachedReport.location);
+                data.append( 'media', cachedReport.media);
+                data.append('alive', cachedReport.alive);
+                data.append('causeOfDeath', cachedReport.causeOfDeath);
+                data.append('notes', cachedReport.notes);
+                const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
+                    method: 'POST',
+                    body: data
+                });
+                if (response.ok){
+                    console.log(response);
+                    this.setState({storedUploaded: true});
+                    this.setState({storedReport: false});
+                    localStorage.clear('data');
+                }
+            }
+        }
+    }
+
     async sendPost(evt) {
         evt.preventDefault();
+        this.setState({loading: true});
         const getLocation = await this.getLocation();
         const location = JSON.stringify({
             "lng" : getLocation.coords.longitude,
@@ -30,7 +63,21 @@ class Report extends React.Component{
                 method: 'POST',
                 body: data
             });
-            console.log(response);
+            if (response.ok){
+                this.setState({successfulReport: true});
+                this.setState({storedUploaded: false});
+                console.log(response);
+            }else {
+                this.setState({storedReport: true});
+                const data = JSON.stringify({
+                    'location' : location,
+                    'media' : this.state.media,
+                    'alive' : this.state.alive,
+                    'causeOfDeath' : this.state.causeOfDeath,
+                    'notes' : this.state.notes
+                })
+                localStorage.setItem('data', data);
+            }
         }else{
             const data = JSON.stringify({
                 'location' : location,
@@ -41,6 +88,7 @@ class Report extends React.Component{
             })
             localStorage.setItem('data', data);
         }
+        this.setState({loading: false});
     }
     getBase64Image(img) {
         return new Promise((resolve, reject) => {
@@ -60,15 +108,14 @@ class Report extends React.Component{
             case 'alive':
                 this.setState({alive: evt.target.value});
                 if (evt.target.value === "0") {
-                    this.setState({visible: true})
+                    this.setState({CoDVisible: true})
                 } else {
-                    this.setState({visible: false})
+                    this.setState({CoDVisible: false})
                 }
                 break;
             case 'media':
                 const media = await this.getBase64Image(evt.target.files[0]);
                 this.setState({media: media});
-                console.log(this.state.media);
                 break;
             default :
                 this.setState({[evt.target.name]: evt.target.value})
@@ -76,7 +123,7 @@ class Report extends React.Component{
         }
     }
     render(){
-        const CoD = this.state.visible ? (
+        const CoD = this.state.CoDVisible ?
             <fieldset>
                 <legend>
                     <h2><label htmlFor="causeOfDeath">Cause of Death?</label></h2>
@@ -89,10 +136,35 @@ class Report extends React.Component{
                     <option value="other">Other</option>
                 </select>
             </fieldset>
-        ) : "";
+            :
+            ""
+        ;
+        const loading = this.state.loading ?
+            <img id="loading" src={Loading} width="50px" height="50px" alt="Loading Animation"/>
+            :
+            <input name="btnSubmit" type="submit" className="submit" value="Submit"/>
+        ;
+        const storedReport = this.state.storedReport ?
+            <h1>Unfortunately we are not able to send your report to our servers right now, but the details have been stored and will be sent when next possible!</h1>
+            :
+            ""
+        ;
+        const storedUploaded = this.state.storedUploaded ?
+            <h1>We have successfully uploaded a stored report!</h1>
+            :
+            ""
+        ;
+        const successfulReport = this.state.successfulReport ?
+            <h1>Successfully uploaded your report!</h1>
+            :
+            ""
+        ;
         return(
             <div className="report">
                 <div className="reportContent">
+                    {successfulReport}
+                    {storedReport}
+                    {storedUploaded}
                     <form className="reportForm" onSubmit={(evt) => this.sendPost(evt)}>
                         <h1>Report a Sighting</h1>
                         <h2>Please detail the conditions of your sighting here:</h2>
@@ -119,7 +191,7 @@ class Report extends React.Component{
                             <textarea placeholder="Type your notes here...." name="notes" className="notes" onChange={(evt) => this.handleInput(evt)} />
                             <span className="notes_error" />
                         </fieldset>
-                        <input name="btnSubmit" type="submit" className="submit" value="Submit"/>
+                        {loading}
                     </form>
                 </div>
             </div>

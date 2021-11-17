@@ -12,18 +12,17 @@ class Sightings extends React.Component {
     }
     componentDidMount(){
         this.sendGet();
-
     }
     async sendGet(){
         const cachedJson = localStorage.getItem('content');
         if (navigator.onLine){
             const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php');
             if (response.ok){
+                localStorage.clear('content');
                 const json = await response.json();
                 const content = JSON.stringify(json);
                 this.setState({content : content});
                 localStorage.setItem('content', content);
-                console.log('new loaded')
             }else if (cachedJson){
                 const json = JSON.parse(cachedJson);
                 const content = JSON.stringify(json);
@@ -47,7 +46,9 @@ class Sightings extends React.Component {
             <div className="loadingContainer">
                 <img id="loading" src={Loading} width="50px" height="50px" alt="Loading Animation"/>
             </div>
-            : "" ;
+            :
+            ""
+        ;
         return (
             <div className="sightings">
                 <div className="sightingsContent">
