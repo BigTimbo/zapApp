@@ -16,20 +16,29 @@ class Sightings extends React.Component {
     }
     async sendGet(){
         const cachedJson = localStorage.getItem('content');
-        const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php');
-        console.log(response);
-        if (response.ok){
-            const json = await response.json();
-            const content = JSON.stringify(json);
-            this.setState({content : content});
-            localStorage.setItem('content', content);
-            console.log('new loaded')
-        }else if (cachedJson){
-            const json = JSON.parse(cachedJson);
-            const content = JSON.stringify(json);
-            this.setState({content : content});
-        } else{
-            this.setState({content: <h1>Nothing to see here, just jedi business</h1>})
+        if (navigator.onLine){
+            const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php');
+            if (response.ok){
+                const json = await response.json();
+                const content = JSON.stringify(json);
+                this.setState({content : content});
+                localStorage.setItem('content', content);
+                console.log('new loaded')
+            }else if (cachedJson){
+                const json = JSON.parse(cachedJson);
+                const content = JSON.stringify(json);
+                this.setState({content : content});
+            } else{
+                this.setState({content: <h1>Nothing to see here, just jedi business</h1>})
+            }
+        }else{
+        if (cachedJson){
+                const json = JSON.parse(cachedJson);
+                const content = JSON.stringify(json);
+                this.setState({content : content});
+            } else{
+                this.setState({content: <h1>Nothing to see here, just jedi business</h1>})
+            }
         }
         this.setState({loading : false});
     }

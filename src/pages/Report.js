@@ -32,7 +32,6 @@ class Report extends React.Component{
             });
             console.log(response);
         }else{
-
             const data = JSON.stringify({
                 'location' : location,
                 'media' : this.state.media,
