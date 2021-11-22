@@ -8,7 +8,7 @@ import Loading from "../images/loading.gif";
  */
 class Report extends React.Component{
     /**
-     * This is a React method that initialises the state variables on Report object creation.
+     * This is a React method that initialises the state variables and is called on class object creation.
      * The state variables are used to handle boolean rendering states and form data content across the class.
      * @param props Properties of Report class.
      */
@@ -29,7 +29,7 @@ class Report extends React.Component{
     }
 
     /**
-     * This is a React method that runs on page load.
+     * This is a React method that is called on page load.
      * This method checks if the user is online and if there is any reports saved to local storage;
      * then continues to loop through, uploading and removing any reports.
      */
@@ -77,7 +77,7 @@ class Report extends React.Component{
     }
 
     /**
-     *
+     * This method handles the submit event, called from the user form.
      * @param evt Event of form submission.
      */
     async handleSubmit(evt) {
@@ -126,7 +126,7 @@ class Report extends React.Component{
     }
 
     /**
-     *
+     * This method is called to store the state variables to the local Storage.
      */
     async storeLocal(){
         this.setState({storedReport: true});
@@ -145,7 +145,7 @@ class Report extends React.Component{
     }
 
     /**
-     *
+     * This method is called to send data to the API via a POST request and returns the response.
      * @param data FormData object to be sent through POST body.
      * @returns {Promise<Response>} Returns a POST HTTP request response.
      */
@@ -157,7 +157,7 @@ class Report extends React.Component{
     }
 
     /**
-     * Return the fileReader result as the resolve from this promise object, thereby converting a base64 string.
+     * This method is called to convert a file to base64 and returns a base64 string from the promise.
      * @param img
      * @returns {Promise<String>} Returns a String of base64.
      */
@@ -171,7 +171,7 @@ class Report extends React.Component{
     }
 
     /**
-     * Return users watched position as the resolve section of this promise object.
+     * This method is called to watch the users position and returns the location JSON from the promise.
      * @returns {Promise<JSON>} Returns a JSON array of location data.
      */
     getLocation(){
@@ -181,7 +181,7 @@ class Report extends React.Component{
     }
 
     /**
-     * This method is triggered from onChange events from the form, parsing the event parameter.
+     * This method is called from onChange events in the form, parsing the event parameter.
      * Using a switch, the event name is compared to handle specific field events.
      * The default event encompasses all other non-specific event actions, and assigns the value to state.
      * @param evt
@@ -212,7 +212,7 @@ class Report extends React.Component{
     }
 
     /**
-     * React method to render the report page content.
+     *This is a React method that renders the report page content.
      * Ternary variables set at the start help dynamically render the content based on the state conditions.
      * @returns {JSX.Element}
      */
