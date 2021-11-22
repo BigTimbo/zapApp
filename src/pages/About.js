@@ -1,6 +1,10 @@
 import React from 'react';
 import '../CSS/About.css';
 
+/**
+ * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
+ * @see {@link https://github.com/BigTimbo/zapApp}
+ */
 function About() {
     return (
         <div className="about">

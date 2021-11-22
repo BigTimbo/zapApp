@@ -2,6 +2,10 @@ import React from 'react';
 import '../CSS/Paralax.css';
 import '../CSS/Home.css';
 
+/**
+ * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
+ * @see {@link https://github.com/BigTimbo/zapApp}
+ */
 function Home() {
     return (
         <div className="home">

@@ -2,6 +2,10 @@ import React from 'react';
 import '../CSS/Sightings.css';
 import Loading from '../images/loading.gif';
 
+/**
+ * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
+ * @see {@link https://github.com/BigTimbo/zapApp}
+ */
 class Sightings extends React.Component {
     constructor(props) {
         super(props);
