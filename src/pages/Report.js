@@ -99,9 +99,13 @@ class Report extends React.Component{
         })
     }
     getLocation(){
-        return new Promise((resolve, reject) => {
-            navigator.geolocation.watchPosition(resolve, reject);
-        });
+        try{
+            return new Promise((resolve, reject) => {
+                navigator.geolocation.watchPosition(resolve, reject);
+            });
+        }catch (e){
+            console.log(e);
+        }
     }
     async handleInput(evt) {
         switch (evt.target.name) {
