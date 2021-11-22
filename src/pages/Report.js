@@ -14,47 +14,86 @@ class Report extends React.Component{
             storedReport: false,
             loading : false,
             storedUploaded: false,
-            successfulReport: false
+            successfulReport: false,
+            location: null
         }
     }
+
     async componentDidMount() {
         if (navigator.onLine){
-            const cachedJson = localStorage.getItem('data');
-            if (cachedJson){
+            // if there are any reports saved to local storage
+            if (localStorage > 0){
                 this.setState({storedReport: true});
                 this.setState({storedUploaded: false});
-                const cachedReport = JSON.parse(cachedJson);
+                //gather only my own report keys
+                const keys = Object.keys(localStorage);
                 const data = new FormData();
-                data.append('location', cachedReport.location);
-                data.append( 'media', cachedReport.media);
-                data.append('alive', cachedReport.alive);
-                data.append('causeOfDeath', cachedReport.causeOfDeath);
-                data.append('notes', cachedReport.notes);
-                const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
-                    method: 'POST',
-                    body: data
-                });
-                if (response.ok){
-                    console.log(response);
-                    this.setState({storedUploaded: true});
-                    this.setState({storedReport: false});
-                    localStorage.clear('data');
+                // for each report key, parse the JSON and send the content to my API
+                for(let key of keys) {
+                    console.log(`${key}: ${localStorage.getItem(key)}`);
+                    const cachedJson = localStorage.getItem(key);
+                    const cachedReport = JSON.parse(cachedJson);
+                    data.append('location', cachedReport.location);
+                    data.append( 'media', cachedReport.media);
+                    data.append('alive', cachedReport.alive);
+                    data.append('causeOfDeath', cachedReport.causeOfDeath);
+                    data.append('notes', cachedReport.notes);
+                    const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
+                        method: 'POST',
+                        body: data
+                    });
+                    if (response.ok){
+                        this.setState({storedUploaded: true});
+                        this.setState({storedReport: false});
+                        // wipe the key from the local storage
+                        localStorage.clear(key);
+                    }
                 }
             }
+
+
+
+            // const cachedJson = localStorage.getItem('data');
+            // if (cachedJson){
+            //     this.setState({storedReport: true});
+            //     this.setState({storedUploaded: false});
+            //     const cachedReport = JSON.parse(cachedJson);
+            //     const data = new FormData();
+            //     data.append('location', cachedReport.location);
+            //     data.append( 'media', cachedReport.media);
+            //     data.append('alive', cachedReport.alive);
+            //     data.append('causeOfDeath', cachedReport.causeOfDeath);
+            //     data.append('notes', cachedReport.notes);
+            //     const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
+            //         method: 'POST',
+            //         body: data
+            //     });
+            //     if (response.ok){
+            //         console.log(response);
+            //         this.setState({storedUploaded: true});
+            //         this.setState({storedReport: false});
+            //         localStorage.clear('data');
+            //     }
+            // }
         }
     }
 
     async sendPost(evt) {
+        // prevent form default submit event
         evt.preventDefault();
+        // start loading
         this.setState({loading: true});
+        // request user location and set as state variable: location
         const getLocation = await this.getLocation();
         const location = JSON.stringify({
             "lng" : getLocation.coords.longitude,
             "lat" : getLocation.coords.latitude
         })
+        this.setState({location: location});
+
         if (navigator.onLine){
             const data = new FormData();
-            data.append('location', location);
+            data.append('location', this.state.location);
             data.append( 'media', this.state.media);
             data.append('alive', this.state.alive);
             data.append('causeOfDeath', this.state.causeOfDeath);
@@ -66,29 +105,26 @@ class Report extends React.Component{
             if (response.ok){
                 this.setState({successfulReport: true});
                 this.setState({storedUploaded: false});
-                console.log(response);
-            }else {
-                this.setState({storedReport: true});
-                const data = JSON.stringify({
-                    'location' : location,
-                    'media' : this.state.media,
-                    'alive' : this.state.alive,
-                    'causeOfDeath' : this.state.causeOfDeath,
-                    'notes' : this.state.notes
-                })
-                localStorage.setItem('data', data);
+            }else{
+                await this.storeLocal();
             }
         }else{
-            const data = JSON.stringify({
-                'location' : location,
-                'media' : this.state.media,
-                'alive' : this.state.alive,
-                'causeOfDeath' : this.state.causeOfDeath,
-                'notes' : this.state.notes
-            })
-            localStorage.setItem('data', data);
+            await this.storeLocal();
         }
         this.setState({loading: false});
+    }
+
+    async storeLocal(){
+        this.setState({storedReport: true});
+        const data = JSON.stringify({
+            'location' : this.state.location,
+            'media' : this.state.media,
+            'alive' : this.state.alive,
+            'causeOfDeath' : this.state.causeOfDeath,
+            'notes' : this.state.notes
+        })
+        localStorage.setItem('reportKeys', "test");
+        localStorage.setItem('data', data);
     }
     getBase64Image(img) {
         return new Promise((resolve, reject) => {
