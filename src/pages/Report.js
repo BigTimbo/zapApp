@@ -40,15 +40,15 @@ class Report extends React.Component{
             if (navigator.onLine){
                 // check if there are any reports saved to local storage
                 if (localStorage.length > 0){
-                    // set the user notification responses
-                    this.setState({storedReport: true});
-                    this.setState({storedUploaded: false});
                     //gather only my own report keys
                     const keys = Object.keys(localStorage);
                     const data = new FormData();
                     // for each report key, parse the JSON and send the content to my API
                     for(let key of keys) {
                         if (key !== 'allSightings'){
+                            // set the user notification responses
+                            this.setState({storedReport: true});
+                            this.setState({storedUploaded: false});
                             // gather this key content
                             const storedKey = localStorage.getItem(key);
                             // parse this key content as JSON
