@@ -20,9 +20,10 @@ class Report extends React.Component{
     }
 
     async componentDidMount() {
+        // check if the user is connected to a network
         if (navigator.onLine){
-            // if there are any reports saved to local storage
-            if (localStorage > 0){
+            // check if there are any reports saved to local storage
+            if (localStorage.length > 0){
                 this.setState({storedReport: true});
                 this.setState({storedUploaded: false});
                 //gather only my own report keys
@@ -30,7 +31,7 @@ class Report extends React.Component{
                 const data = new FormData();
                 // for each report key, parse the JSON and send the content to my API
                 for(let key of keys) {
-                    console.log(`${key}: ${localStorage.getItem(key)}`);
+                    console.log(`${key}: `);
                     const cachedJson = localStorage.getItem(key);
                     const cachedReport = JSON.parse(cachedJson);
                     data.append('location', cachedReport.location);
@@ -46,13 +47,10 @@ class Report extends React.Component{
                         this.setState({storedUploaded: true});
                         this.setState({storedReport: false});
                         // wipe the key from the local storage
-                        localStorage.clear(key);
+                        localStorage.removeItem(key);
                     }
                 }
             }
-
-
-
             // const cachedJson = localStorage.getItem('data');
             // if (cachedJson){
             //     this.setState({storedReport: true});
@@ -90,7 +88,7 @@ class Report extends React.Component{
             "lat" : getLocation.coords.latitude
         })
         this.setState({location: location});
-
+        // check if the user is connected to a network
         if (navigator.onLine){
             const data = new FormData();
             data.append('location', this.state.location);
@@ -116,6 +114,7 @@ class Report extends React.Component{
 
     async storeLocal(){
         this.setState({storedReport: true});
+        // create a string from the json of report values
         const data = JSON.stringify({
             'location' : this.state.location,
             'media' : this.state.media,
@@ -123,8 +122,10 @@ class Report extends React.Component{
             'causeOfDeath' : this.state.causeOfDeath,
             'notes' : this.state.notes
         })
-        localStorage.setItem('reportKeys', "test");
-        localStorage.setItem('data', data);
+        // create a unique key from date number to string
+        const uniqueKey = (new Date()).getTime().toString();
+        // save the report content to unique key
+        localStorage.setItem(uniqueKey, data);
     }
     getBase64Image(img) {
         return new Promise((resolve, reject) => {
@@ -190,7 +191,7 @@ class Report extends React.Component{
             ""
         ;
         const storedUploaded = this.state.storedUploaded ?
-            <h1>We have successfully uploaded a stored report!</h1>
+            <h1>We have successfully uploaded the stored reports!</h1>
             :
             ""
         ;
