@@ -3,6 +3,10 @@ import '../CSS/Report.css';
 import Loading from "../images/loading.gif";
 
 class Report extends React.Component{
+    /**
+     *
+     * @param props
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -19,6 +23,10 @@ class Report extends React.Component{
         }
     }
 
+    /**
+     *
+     * @returns {Promise<void>}
+     */
     async componentDidMount() {
         // bundle local storage upload within try/catch in case of browser/device incompatibility
         try{
@@ -65,6 +73,11 @@ class Report extends React.Component{
         }
     }
 
+    /**
+     *
+     * @param evt
+     * @returns {Promise<void>}
+     */
     async handleSubmit(evt) {
         // bundle whole handle submit within try/catch in case of browser/device incompatibility
         try {
@@ -113,6 +126,10 @@ class Report extends React.Component{
         }
     }
 
+    /**
+     *
+     * @returns {Promise<void>}
+     */
     async storeLocal(){
         this.setState({storedReport: true});
         // create a string from the json of report values
@@ -128,7 +145,14 @@ class Report extends React.Component{
         // save the report content to unique key
         localStorage.setItem(uniqueKey, data);
     }
+
+    /**
+     *
+     * @param img
+     * @returns {Promise<unknown>}
+     */
     getBase64Image(img) {
+        // return the fileReader result as the resolve from this promise object, thereby converting a base64 string
         return new Promise((resolve, reject) => {
             const reader = new FileReader()
             reader.onloadend = () => resolve(reader.result)
@@ -136,12 +160,25 @@ class Report extends React.Component{
             reader.readAsDataURL(img)
         })
     }
+
+    /**
+     *
+     * @returns {Promise<unknown>}
+     */
     getLocation(){
+        // return users watched position as the resolve section of this promise object
         return new Promise((resolve, reject) => {
             navigator.geolocation.watchPosition(resolve, reject);
         });
     }
+
+    /**
+     *
+     * @param evt
+     * @returns {Promise<void>}
+     */
     async handleInput(evt) {
+        //
         switch (evt.target.name) {
             case 'alive':
                 this.setState({alive: evt.target.value});
@@ -160,6 +197,11 @@ class Report extends React.Component{
                 break;
         }
     }
+
+    /**
+     *
+     * @returns {JSX.Element}
+     */
     render(){
         const CoD = this.state.CoDVisible ?
             <fieldset>
