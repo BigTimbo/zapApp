@@ -43,8 +43,8 @@ class api extends db
         if ($stmt->rowCount() > 0){
             while($row = $stmt->fetch()){
                 $this->response['sightings'][] = [
+                    'ID' => $row['ID'],
                     'location' => $row['location'],
-                    'media' => $row['media'],
                     'alive' => $row['alive'],
                     'causeOfDeath' => $row['causeOfDeath'],
                     'notes' => $row['notes']

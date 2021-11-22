@@ -48,25 +48,27 @@ class Report extends React.Component{
                     const data = new FormData();
                     // for each report key, parse the JSON and send the content to my API
                     for(let key of keys) {
-                        // gather this key content
-                        const storedKey = localStorage.getItem(key);
-                        // parse this key content as JSON
-                        const storedJSON = JSON.parse(storedKey);
-                        // append all the JSON values to the respective form data key
-                        data.append('location', storedJSON.location);
-                        data.append( 'media', storedJSON.media);
-                        data.append('alive', storedJSON.alive);
-                        data.append('causeOfDeath', storedJSON.causeOfDeath);
-                        data.append('notes', storedJSON.notes);
-                        // send the fetch request to my API with post body
-                        const response = await this.sendPost(data);
-                        // check if fetch response is OK
-                        if (response.ok){
-                            // set the user notification responses
-                            this.setState({storedUploaded: true});
-                            this.setState({storedReport: false});
-                            // wipe the key from the local storage
-                            localStorage.removeItem(key);
+                        if (key !== 'allSightings'){
+                            // gather this key content
+                            const storedKey = localStorage.getItem(key);
+                            // parse this key content as JSON
+                            const storedJSON = JSON.parse(storedKey);
+                            // append all the JSON values to the respective form data key
+                            data.append('location', storedJSON.location);
+                            data.append( 'media', storedJSON.media);
+                            data.append('alive', storedJSON.alive);
+                            data.append('causeOfDeath', storedJSON.causeOfDeath);
+                            data.append('notes', storedJSON.notes);
+                            // send the fetch request to my API with post body
+                            const response = await this.sendPost(data);
+                            // check if fetch response is OK
+                            if (response.ok){
+                                // set the user notification responses
+                                this.setState({storedUploaded: true});
+                                this.setState({storedReport: false});
+                                // wipe the key from the local storage
+                                localStorage.removeItem(key);
+                            }
                         }
                     }
                 }
@@ -200,7 +202,7 @@ class Report extends React.Component{
                 break;
             case 'media':
                 // take the first file from field and convert to base64 string
-                const media = await this.getBase64Image(evt.target.files[0]);
+                let media = await this.getBase64Image(evt.target.files[0]);
                 // set value to state
                 this.setState({media: media});
                 break;

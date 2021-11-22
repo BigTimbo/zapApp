@@ -2,7 +2,29 @@
 
 }
 .sightingsContent{
+    padding-top: 4vh;
+}
+#sightingsTable {
+    border-collapse: collapse;
+    width: 80%;
+    margin: auto;
+}
 
+#sightingsTable td, #sightingsTable th {
+    border: 1px solid #666235;
+    padding: 8px;
+}
+
+#sightingsTable tr:nth-child(even){background-color: #dfcfb3;}
+
+#sightingsTable tr:hover {background-color: #ddd;}
+
+#sightingsTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #836D54;
+    color: white;
 }
 .loadingContainer{
     display: flex;

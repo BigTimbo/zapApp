@@ -14,36 +14,47 @@ class Sightings extends React.Component {
             loading : true
         }
     }
-    componentDidMount(){
-        this.sendGet();
-    }
-    async sendGet(){
-        const cachedJson = localStorage.getItem('content');
+    async componentDidMount(){
+        const cachedJson = localStorage.getItem('allSightings');
         if (navigator.onLine){
             const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php');
             if (response.ok){
-                localStorage.clear('content');
+                localStorage.removeItem('allSightings');
                 const json = await response.json();
-                const content = JSON.stringify(json);
-                this.setState({content : content});
-                localStorage.setItem('content', content);
+                this.buildTable(json);
+                const storeLocal = JSON.stringify(json);
+                localStorage.setItem('allSightings', storeLocal);
             }else if (cachedJson){
                 const json = JSON.parse(cachedJson);
-                const content = JSON.stringify(json);
-                this.setState({content : content});
+                this.buildTable(json);
+                this.setState({content : this.state.content});
             } else{
                 this.setState({content: <h1>Nothing to see here, just jedi business</h1>})
             }
         }else{
-        if (cachedJson){
+            if (cachedJson){
                 const json = JSON.parse(cachedJson);
-                const content = JSON.stringify(json);
-                this.setState({content : content});
+                this.buildTable(json);
+                this.setState({content : this.state.content});
             } else{
                 this.setState({content: <h1>Nothing to see here, just jedi business</h1>})
             }
         }
         this.setState({loading : false});
+    }
+    buildTable(json){
+        const content = [];
+        for (let i = 0; i < json.sightings.length; i++) {
+            content.push(
+                <tr key={json.sightings[i].ID}>
+                    <td>{json.sightings[i].ID}</td>
+                    <td>{json.sightings[i].alive=== '1' ? 'still kicking' : 'kicked the bucket'}</td>
+                    <td>{json.sightings[i].causeOfDeath === 'null' ? 'none' : json.sightings[i].causeOfDeath}</td>
+                    <td>{json.sightings[i].notes=== 'null' ? 'none' : json.sightings[i].notes}</td>
+                </tr>
+            );
+        }
+        this.setState({content : content});
     }
     render(){
         const loading = this.state.loading ?
@@ -56,8 +67,20 @@ class Sightings extends React.Component {
         return (
             <div className="sightings">
                 <div className="sightingsContent">
+                    <table id="sightingsTable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Alive</th>
+                            <th>Cause Of Death</th>
+                            <th>Notes</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {this.state.content}
+                        </tbody>
+                    </table>
                     {loading}
-                    {this.state.content}
                 </div>
             </div>
         )
