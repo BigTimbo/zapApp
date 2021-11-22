@@ -52,10 +52,7 @@ class Report extends React.Component{
                         data.append('causeOfDeath', storedJSON.causeOfDeath);
                         data.append('notes', storedJSON.notes);
                         // send the fetch request to my API with post body
-                        const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
-                            method: 'POST',
-                            body: data
-                        });
+                        const response = await this.sendPost(data);
                         // check if fetch response is OK
                         if (response.ok){
                             // set the user notification responses
@@ -100,10 +97,7 @@ class Report extends React.Component{
                 data.append('causeOfDeath', this.state.causeOfDeath);
                 data.append('notes', this.state.notes);
                 // send the fetch request to my API with post body
-                const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
-                    method: 'POST',
-                    body: data
-                });
+                const response = await this.sendPost(data);
                 // check if fetch response is OK
                 if (response.ok) {
                     // set the user notification responses
@@ -141,6 +135,13 @@ class Report extends React.Component{
         const uniqueKey = (new Date()).getTime().toString();
         // save the report content to unique key
         localStorage.setItem(uniqueKey, data);
+    }
+
+    async sendPost(data){
+        return await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
+            method: 'POST',
+            body: data
+        });
     }
 
     /**
