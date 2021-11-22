@@ -5,7 +5,7 @@ import Loading from "../images/loading.gif";
 class Report extends React.Component{
     /**
      *
-     * @param props
+     * @param props Properties of Report class.
      */
     constructor(props) {
         super(props);
@@ -25,7 +25,6 @@ class Report extends React.Component{
 
     /**
      *
-     * @returns {Promise<void>}
      */
     async componentDidMount() {
         // bundle local storage upload within try/catch in case of browser/device incompatibility
@@ -75,8 +74,7 @@ class Report extends React.Component{
 
     /**
      *
-     * @param evt
-     * @returns {Promise<void>}
+     * @param evt Event of form submission.
      */
     async handleSubmit(evt) {
         // bundle whole handle submit within try/catch in case of browser/device incompatibility
@@ -128,7 +126,6 @@ class Report extends React.Component{
 
     /**
      *
-     * @returns {Promise<void>}
      */
     async storeLocal(){
         this.setState({storedReport: true});
@@ -147,12 +144,11 @@ class Report extends React.Component{
     }
 
     /**
-     *
+     * Return the fileReader result as the resolve from this promise object, thereby converting a base64 string.
      * @param img
-     * @returns {Promise<unknown>}
+     * @returns {Promise<String>} Returns a String of base64.
      */
     getBase64Image(img) {
-        // return the fileReader result as the resolve from this promise object, thereby converting a base64 string
         return new Promise((resolve, reject) => {
             const reader = new FileReader()
             reader.onloadend = () => resolve(reader.result)
@@ -162,26 +158,27 @@ class Report extends React.Component{
     }
 
     /**
-     *
-     * @returns {Promise<unknown>}
+     * Return users watched position as the resolve section of this promise object.
+     * @returns {Promise<JSON>} Returns a JSON array of location data.
      */
     getLocation(){
-        // return users watched position as the resolve section of this promise object
         return new Promise((resolve, reject) => {
             navigator.geolocation.watchPosition(resolve, reject);
         });
     }
 
     /**
-     *
+     * This method is triggered from onChange events from the form, parsing the event parameter.
+     * Using a switch, the event name is compared to handle specific field events.
+     * The default event encompasses all other non-specific event actions, and assigns the value to state.
      * @param evt
-     * @returns {Promise<void>}
      */
     async handleInput(evt) {
-        //
         switch (evt.target.name) {
             case 'alive':
+                // set value to state
                 this.setState({alive: evt.target.value});
+                // change state for causeOfDeath field to become visible/rendered on the page.
                 if (evt.target.value === "0") {
                     this.setState({CoDVisible: true})
                 } else {
@@ -189,17 +186,21 @@ class Report extends React.Component{
                 }
                 break;
             case 'media':
+                // take the first file from field and convert to base64 string
                 const media = await this.getBase64Image(evt.target.files[0]);
+                // set value to state
                 this.setState({media: media});
                 break;
             default :
+                // set value to state
                 this.setState({[evt.target.name]: evt.target.value})
                 break;
         }
     }
 
     /**
-     *
+     * React method to render the report page content.
+     * Ternary variables set at the start help dynamically render the content based on the state conditions.
      * @returns {JSX.Element}
      */
     render(){
