@@ -2,9 +2,14 @@ import React from 'react';
 import '../CSS/Report.css';
 import Loading from "../images/loading.gif";
 
+/**
+ * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
+ * @see {@link https://github.com/BigTimbo/zapApp}
+ */
 class Report extends React.Component{
     /**
-     *
+     * This is a React method that initialises the state variables on Report object creation.
+     * The state variables are used to handle boolean rendering states and form data content across the class.
      * @param props Properties of Report class.
      */
     constructor(props) {
@@ -24,7 +29,9 @@ class Report extends React.Component{
     }
 
     /**
-     *
+     * This is a React method that runs on page load.
+     * This method checks if the user is online and if there is any reports saved to local storage;
+     * then continues to loop through, uploading and removing any reports.
      */
     async componentDidMount() {
         // bundle local storage upload within try/catch in case of browser/device incompatibility
@@ -137,6 +144,11 @@ class Report extends React.Component{
         localStorage.setItem(uniqueKey, data);
     }
 
+    /**
+     *
+     * @param data FormData object to be sent through POST body.
+     * @returns {Promise<Response>} Returns a POST HTTP request response.
+     */
     async sendPost(data){
         return await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
             method: 'POST',
