@@ -20,96 +20,97 @@ class Report extends React.Component{
     }
 
     async componentDidMount() {
-        // check if the user is connected to a network
-        if (navigator.onLine){
-            // check if there are any reports saved to local storage
-            if (localStorage.length > 0){
-                this.setState({storedReport: true});
-                this.setState({storedUploaded: false});
-                //gather only my own report keys
-                const keys = Object.keys(localStorage);
-                const data = new FormData();
-                // for each report key, parse the JSON and send the content to my API
-                for(let key of keys) {
-                    console.log(`${key}: `);
-                    const cachedJson = localStorage.getItem(key);
-                    const cachedReport = JSON.parse(cachedJson);
-                    data.append('location', cachedReport.location);
-                    data.append( 'media', cachedReport.media);
-                    data.append('alive', cachedReport.alive);
-                    data.append('causeOfDeath', cachedReport.causeOfDeath);
-                    data.append('notes', cachedReport.notes);
-                    const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
-                        method: 'POST',
-                        body: data
-                    });
-                    if (response.ok){
-                        this.setState({storedUploaded: true});
-                        this.setState({storedReport: false});
-                        // wipe the key from the local storage
-                        localStorage.removeItem(key);
+        // bundle local storage upload within try/catch in case of browser/device incompatibility
+        try{
+            // check if the user is connected to a network
+            if (navigator.onLine){
+                // check if there are any reports saved to local storage
+                if (localStorage.length > 0){
+                    // set the user notification responses
+                    this.setState({storedReport: true});
+                    this.setState({storedUploaded: false});
+                    //gather only my own report keys
+                    const keys = Object.keys(localStorage);
+                    const data = new FormData();
+                    // for each report key, parse the JSON and send the content to my API
+                    for(let key of keys) {
+                        // gather this key content
+                        const storedKey = localStorage.getItem(key);
+                        // parse this key content as JSON
+                        const storedJSON = JSON.parse(storedKey);
+                        // append all the JSON values to the respective form data key
+                        data.append('location', storedJSON.location);
+                        data.append( 'media', storedJSON.media);
+                        data.append('alive', storedJSON.alive);
+                        data.append('causeOfDeath', storedJSON.causeOfDeath);
+                        data.append('notes', storedJSON.notes);
+                        // send the fetch request to my API with post body
+                        const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
+                            method: 'POST',
+                            body: data
+                        });
+                        // check if fetch response is OK
+                        if (response.ok){
+                            // set the user notification responses
+                            this.setState({storedUploaded: true});
+                            this.setState({storedReport: false});
+                            // wipe the key from the local storage
+                            localStorage.removeItem(key);
+                        }
                     }
                 }
             }
-            // const cachedJson = localStorage.getItem('data');
-            // if (cachedJson){
-            //     this.setState({storedReport: true});
-            //     this.setState({storedUploaded: false});
-            //     const cachedReport = JSON.parse(cachedJson);
-            //     const data = new FormData();
-            //     data.append('location', cachedReport.location);
-            //     data.append( 'media', cachedReport.media);
-            //     data.append('alive', cachedReport.alive);
-            //     data.append('causeOfDeath', cachedReport.causeOfDeath);
-            //     data.append('notes', cachedReport.notes);
-            //     const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
-            //         method: 'POST',
-            //         body: data
-            //     });
-            //     if (response.ok){
-            //         console.log(response);
-            //         this.setState({storedUploaded: true});
-            //         this.setState({storedReport: false});
-            //         localStorage.clear('data');
-            //     }
-            // }
+        }catch (e){
+            console.log(e);
         }
     }
 
-    async sendPost(evt) {
-        // prevent form default submit event
-        evt.preventDefault();
-        // start loading
-        this.setState({loading: true});
-        // request user location and set as state variable: location
-        const getLocation = await this.getLocation();
-        const location = JSON.stringify({
-            "lng" : getLocation.coords.longitude,
-            "lat" : getLocation.coords.latitude
-        })
-        this.setState({location: location});
-        // check if the user is connected to a network
-        if (navigator.onLine){
-            const data = new FormData();
-            data.append('location', this.state.location);
-            data.append( 'media', this.state.media);
-            data.append('alive', this.state.alive);
-            data.append('causeOfDeath', this.state.causeOfDeath);
-            data.append('notes', this.state.notes);
-            const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
-                method: 'POST',
-                body: data
-            });
-            if (response.ok){
-                this.setState({successfulReport: true});
-                this.setState({storedUploaded: false});
-            }else{
+    async handleSubmit(evt) {
+        // bundle whole handle submit within try/catch in case of browser/device incompatibility
+        try {
+            // prevent form default submit event
+            evt.preventDefault();
+            // start loading
+            this.setState({loading: true});
+            // request user location and set as state variable: location
+            const getLocation = await this.getLocation();
+            const location = JSON.stringify({
+                "lng": getLocation.coords.longitude,
+                "lat": getLocation.coords.latitude
+            })
+            this.setState({location: location});
+            // check if the user is connected to a network
+            if (navigator.onLine) {
+                const data = new FormData();
+                // append all the state values to the respective form data key
+                data.append('location', this.state.location);
+                data.append('media', this.state.media);
+                data.append('alive', this.state.alive);
+                data.append('causeOfDeath', this.state.causeOfDeath);
+                data.append('notes', this.state.notes);
+                // send the fetch request to my API with post body
+                const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
+                    method: 'POST',
+                    body: data
+                });
+                // check if fetch response is OK
+                if (response.ok) {
+                    // set the user notification responses
+                    this.setState({successfulReport: true});
+                    this.setState({storedUploaded: false});
+                } else {
+                    // store values to localStorage
+                    await this.storeLocal();
+                }
+            } else {
+                // store values to localStorage
                 await this.storeLocal();
             }
-        }else{
-            await this.storeLocal();
+            // stop loading
+            this.setState({loading: false});
+        }catch (e){
+            console.log(e);
         }
-        this.setState({loading: false});
     }
 
     async storeLocal(){
@@ -136,13 +137,9 @@ class Report extends React.Component{
         })
     }
     getLocation(){
-        try{
-            return new Promise((resolve, reject) => {
-                navigator.geolocation.watchPosition(resolve, reject);
-            });
-        }catch (e){
-            console.log(e);
-        }
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.watchPosition(resolve, reject);
+        });
     }
     async handleInput(evt) {
         switch (evt.target.name) {
@@ -206,7 +203,7 @@ class Report extends React.Component{
                     {successfulReport}
                     {storedReport}
                     {storedUploaded}
-                    <form className="reportForm" onSubmit={(evt) => this.sendPost(evt)}>
+                    <form className="reportForm" onSubmit={(evt) => this.handleSubmit(evt)}>
                         <h1>Report a Sighting</h1>
                         <h2>Please detail the conditions of your sighting here:</h2>
                         <fieldset>
