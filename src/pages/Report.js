@@ -266,7 +266,7 @@ class Report extends React.Component{
                             <legend>
                                 <h2><label htmlFor="media">Please upload an image:</label></h2>
                             </legend>
-                            <input name="media" id="media" type="file" onChange={(evt) => this.handleInput(evt)} />
+                            <input name="media" id="media" type="file" accept="image/*" onChange={(evt) => this.handleInput(evt)} />
                         </fieldset>
                         <fieldset>
                             <legend>
