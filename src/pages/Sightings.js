@@ -34,14 +34,10 @@ class Sightings extends React.Component {
             } else{
                 this.setState({content: <h1>Nothing to see here, just jedi business</h1>})
             }
-        }else{
-            if (cachedJson){
-                const json = JSON.parse(cachedJson);
-                this.buildTable(json);
-                this.setState({content : this.state.content});
-            } else{
-                this.setState({content: <h1>Nothing to see here, just jedi business</h1>})
-            }
+        }else if (cachedJson){
+            const json = JSON.parse(cachedJson);
+            this.buildTable(json);
+            this.setState({content : this.state.content});
         }
         this.setState({loading : false});
     }
