@@ -31,8 +31,6 @@ class Sightings extends React.Component {
                 const json = JSON.parse(cachedJson);
                 this.buildTable(json);
                 this.setState({content : this.state.content});
-            } else{
-                this.setState({content: <h1>Nothing to see here, just jedi business</h1>})
             }
         }else if (cachedJson){
             const json = JSON.parse(cachedJson);
@@ -44,22 +42,24 @@ class Sightings extends React.Component {
     buildTable(json){
         const content = [];
         const mapContent = [];
-        for (let i = 0; i < json.sightings.length; i++) {
-            let location = json.sightings[i].location;
-            location = JSON.parse(location);
-            const pin = `pin-s-${json.sightings[i].ID}+555555(${location.lng},${location.lat})`;
-            mapContent.push(pin);
-            content.push(
-                <tr key={json.sightings[i].ID}>
-                    <td>{json.sightings[i].ID}</td>
-                    <td>{json.sightings[i].alive=== '1' ? 'still kicking' : 'kicked the bucket'}</td>
-                    <td>{json.sightings[i].causeOfDeath === 'null' ? 'none' : json.sightings[i].causeOfDeath}</td>
-                    <td>{json.sightings[i].notes=== 'null' ? 'none' : json.sightings[i].notes}</td>
-                </tr>
-            );
+        if (json.sightings){
+            for (let i = 0; i < json.sightings.length; i++) {
+                let location = json.sightings[i].location;
+                location = JSON.parse(location);
+                const pin = `pin-s-${json.sightings[i].ID}+555555(${location.lng},${location.lat})`;
+                mapContent.push(pin);
+                content.push(
+                    <tr key={json.sightings[i].ID}>
+                        <td>{json.sightings[i].ID}</td>
+                        <td>{json.sightings[i].alive=== '1' ? 'still kicking' : 'kicked the bucket'}</td>
+                        <td>{json.sightings[i].causeOfDeath === 'null' ? 'none' : json.sightings[i].causeOfDeath}</td>
+                        <td>{json.sightings[i].notes=== 'null' ? 'none' : json.sightings[i].notes}</td>
+                    </tr>
+                );
+            }
+            this.setState({sightingsMap : `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${mapContent.toString()}/23.5713,-28.6876,5.1,0/1280x720?access_token=pk.eyJ1IjoiYmlndGltYm8iLCJhIjoiY2t3YWcxeTMwMXM0NzJ2cmg4b2o0YnhsaiJ9.JZWpZWaRPgctxFfIP0Vsqw`})
+            this.setState({content : content});
         }
-        this.setState({sightingsMap : `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${mapContent.toString()}/23.5713,-28.6876,5.1,0/1280x720?access_token=pk.eyJ1IjoiYmlndGltYm8iLCJhIjoiY2t3YWcxeTMwMXM0NzJ2cmg4b2o0YnhsaiJ9.JZWpZWaRPgctxFfIP0Vsqw`})
-        this.setState({content : content});
     }
     render(){
         const loading = this.state.loading ?
