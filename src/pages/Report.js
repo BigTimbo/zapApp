@@ -214,6 +214,14 @@ class Report extends React.Component{
     }
 
     /**
+     *
+     * @param evt
+     */
+    handleClose(evt){
+        this.setState({[evt.target.id]: ![evt.target.id]})
+    }
+
+    /**
      *This is a React method that renders the report page content.
      * Ternary variables set at the start help dynamically render the content based on the state conditions.
      * @returns {JSX.Element}
@@ -241,17 +249,26 @@ class Report extends React.Component{
             <input name="btnSubmit" type="submit" className="submit" value="Submit"/>
         ;
         const storedReport = this.state.storedReport ?
-            <h1>Unfortunately we are not able to send your report to our servers right now, but the details have been stored and will be sent when next possible!</h1>
+            <div className="reportBanner warning">
+                <p>Unfortunately we are not able to send your report to our servers right now, but the details have been stored and will be sent when next possible!</p>
+                <div id="storedReport" className="alertClose" onClick={(evt) => this.handleClose(evt)}>+</div>
+            </div>
             :
             ""
         ;
         const storedUploaded = this.state.storedUploaded ?
-            <h1>We have successfully uploaded the stored reports!</h1>
+            <div className="reportBanner good">
+                <p>We have successfully uploaded the stored reports!</p>
+                <div id="storedUploaded" className="alertClose" onClick={(evt) => this.handleClose(evt)}>+</div>
+            </div>
             :
             ""
         ;
         const successfulReport = this.state.successfulReport ?
-            <h1>Successfully uploaded your report!</h1>
+            <div className="reportBanner good">
+                <p>Successfully uploaded your report!</p>
+                <div id="successfulReport" className="alertClose" onClick={(evt) => this.handleClose(evt)}>+</div>
+            </div>
             :
             ""
         ;
