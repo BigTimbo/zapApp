@@ -7,6 +7,7 @@ import Loading from "../images/loading.gif";
  * @see {@link https://github.com/BigTimbo/zapApp}
  */
 class Report extends React.Component{
+    controller = new AbortController();
     /**
      * This is a React method that initialises the state variables and is called on class object creation.
      * The state variables are used to handle boolean rendering states and form data content across the class.
@@ -34,7 +35,7 @@ class Report extends React.Component{
      * then continues to loop through, uploading and removing any reports.
      */
     async componentDidMount() {
-        // bundle local storage upload within try/catch in case of browser/device incompatibility
+        // bundle local storage upload within try/catch in case of browser/device incompatibility & memory leaks
         try{
             // check if the user is connected to a network
             if (navigator.onLine){
@@ -60,7 +61,7 @@ class Report extends React.Component{
                             data.append('causeOfDeath', storedJSON.causeOfDeath);
                             data.append('notes', storedJSON.notes);
                             // send the fetch request to my API with post body
-                            const response = await this.sendPost(data);
+                            const response = await this.sendPost(data, this.controller);
                             // check if fetch response is OK
                             if (response.ok){
                                 // set the user notification responses
@@ -77,13 +78,16 @@ class Report extends React.Component{
             console.log(e);
         }
     }
+    componentWillUnmount() {
+        this.controller.abort();
+    }
 
     /**
      * This method handles the submit event, called from the user form.
      * @param evt Event of form submission.
      */
     async handleSubmit(evt) {
-        // bundle whole handle submit within try/catch in case of browser/device incompatibility
+        // bundle whole handle submit within try/catch in case of browser/device incompatibility & memory leaks
         try {
             // prevent form default submit event
             evt.preventDefault();
@@ -106,7 +110,7 @@ class Report extends React.Component{
                 data.append('causeOfDeath', this.state.causeOfDeath);
                 data.append('notes', this.state.notes);
                 // send the fetch request to my API with post body
-                const response = await this.sendPost(data);
+                const response = await this.sendPost(data, this.controller);
                 // check if fetch response is OK
                 if (response.ok) {
                     // set the user notification responses
@@ -114,12 +118,13 @@ class Report extends React.Component{
                     this.setState({storedUploaded: false});
                 } else {
                     // store values to localStorage
-                    await this.storeLocal();
+                    this.storeLocal();
                 }
             } else {
                 // store values to localStorage
-                await this.storeLocal();
+                this.storeLocal();
             }
+            //this.setState({});
             // stop loading
             this.setState({loading: false});
         }catch (e){
@@ -130,7 +135,7 @@ class Report extends React.Component{
     /**
      * This method is called to store the state variables to the local Storage.
      */
-    async storeLocal(){
+    storeLocal(){
         this.setState({storedReport: true});
         // create a string from the json of report values
         const data = JSON.stringify({
@@ -149,10 +154,12 @@ class Report extends React.Component{
     /**
      * This method is called to send data to the API via a POST request and returns the response.
      * @param data FormData object to be sent through POST body.
+     * @param controller AbortController to abort on unMount to prevent memory leaks
      * @returns {Promise<Response>} Returns a POST HTTP request response.
      */
-    async sendPost(data){
+    async sendPost(data, controller){
         return await fetch('http://localhost:63342/zapapp/src/PHP/api.php', {
+            controller,
             method: 'POST',
             body: data
         });

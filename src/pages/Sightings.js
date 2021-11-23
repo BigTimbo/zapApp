@@ -7,6 +7,7 @@ import Loading from '../images/loading.gif';
  * @see {@link https://github.com/BigTimbo/zapApp}
  */
 class Sightings extends React.Component {
+    controller = new AbortController();
     constructor(props) {
         super(props);
         this.state = {
@@ -16,28 +17,35 @@ class Sightings extends React.Component {
         }
     }
     async componentDidMount(){
-        const cachedJson = localStorage.getItem('allSightings');
-        if (navigator.onLine){
-            const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php');
-            if (response.ok){
-                localStorage.removeItem('allSightings');
-                const json = await response.json();
-                if (json.result !== 'No results'){
+        try {
+            const cachedJson = localStorage.getItem('allSightings');
+            if (navigator.onLine) {
+                const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', this.controller);
+                if (response.ok) {
+                    localStorage.removeItem('allSightings');
+                    const json = await response.json();
+                    if (json.result !== 'No results') {
+                        this.buildTable(json);
+                    }
+                    const storeLocal = JSON.stringify(json);
+                    localStorage.setItem('allSightings', storeLocal);
+                } else if (cachedJson) {
+                    const json = JSON.parse(cachedJson);
                     this.buildTable(json);
+                    this.setState({content: this.state.content});
                 }
-                const storeLocal = JSON.stringify(json);
-                localStorage.setItem('allSightings', storeLocal);
-            }else if (cachedJson){
+            } else if (cachedJson) {
                 const json = JSON.parse(cachedJson);
                 this.buildTable(json);
-                this.setState({content : this.state.content});
+                this.setState({content: this.state.content});
             }
-        }else if (cachedJson){
-            const json = JSON.parse(cachedJson);
-            this.buildTable(json);
-            this.setState({content : this.state.content});
+            this.setState({loading: false});
+        }catch (e) {
+            console.log(e)
         }
-        this.setState({loading : false});
+    }
+    componentWillUnmount() {
+        this.controller.abort();
     }
     buildTable(json){
         const content = [];
