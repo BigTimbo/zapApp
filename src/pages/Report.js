@@ -124,7 +124,9 @@ class Report extends React.Component{
                 // store values to localStorage
                 this.storeLocal();
             }
-            //this.setState({});
+            // reset the form fields for new submissions
+            evt.target.reset();
+            this.setState({CoDVisible: false});
             // stop loading
             this.setState({loading: false});
         }catch (e){
@@ -185,7 +187,7 @@ class Report extends React.Component{
      */
     getLocation(){
         return new Promise((resolve, reject) => {
-            navigator.geolocation.watchPosition(resolve, reject);
+            navigator.geolocation.getCurrentPosition(resolve, reject);
         });
     }
 
