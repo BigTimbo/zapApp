@@ -4,6 +4,12 @@
 .sightingsContent{
     padding-top: 4vh;
 }
+.map{
+    width: 80%;
+    height: auto;
+    margin: auto;
+    display: block;
+}
 #sightingsTable {
     border-collapse: collapse;
     width: 80%;
