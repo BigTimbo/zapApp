@@ -221,17 +221,19 @@ class Report extends React.Component{
                 }
                 break;
             case 'media':
-
-                // take the first file from field and convert to base64 string
-                let media = await this.getBase64Image(evt.target.files[0]);
-                // check if file field is
-                if (!media.includes('data:image')){
-                    this.setState({fileError: true})
-                    evt.target.value = '';
-                }else{
-                    // set value to state
-                    this.setState({media: media});
-                    this.setState({fileError: false})
+                // check if input isn't empty after change
+                if (evt.target.value !== ''){
+                    // take the first file from field and convert to base64 string
+                    let media = await this.getBase64Image(evt.target.files[0]);
+                    // check if file field is
+                    if (!media.includes('data:image')){
+                        this.setState({fileError: true})
+                        evt.target.value = '';
+                    }else{
+                        // set value to state
+                        this.setState({media: media});
+                        this.setState({fileError: false})
+                    }
                 }
                 break;
             default :
