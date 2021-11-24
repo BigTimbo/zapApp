@@ -59,7 +59,7 @@ class Sightings extends React.Component {
                 content.push(
                     <tr key={json.sightings[i].ID}>
                         <td>{json.sightings[i].ID}</td>
-                        <td>{json.sightings[i].alive=== '1' ? 'still kicking' : 'kicked the bucket'}</td>
+                        <td>{json.sightings[i].alive=== '1' ? <p>&#9989;</p> : <p>&#10060;</p>}</td>
                         <td>{json.sightings[i].causeOfDeath === 'null' ? 'none' : json.sightings[i].causeOfDeath}</td>
                         <td>{json.sightings[i].notes=== 'null' ? 'none' : json.sightings[i].notes}</td>
                     </tr>

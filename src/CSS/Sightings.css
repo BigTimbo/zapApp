@@ -22,7 +22,9 @@
     border: 1px solid #666235;
     padding: 8px;
 }
-
+tbody{
+    text-align: center;
+}
 #sightingsTable tr:nth-child(even){background-color: #dfcfb3;}
 
 #sightingsTable tr:hover {background-color: #ddd;}
