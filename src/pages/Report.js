@@ -7,6 +7,7 @@ import Loading from "../images/loading.gif";
  * @see {@link https://github.com/BigTimbo/zapApp}
  */
 class Report extends React.Component{
+    // abort controller used to prevent memory leaks on fetch requests
     controller = new AbortController();
     /**
      * This is a React method that initialises the state variables and is called on class object creation.
@@ -25,7 +26,8 @@ class Report extends React.Component{
             loading : false,
             storedUploaded: false,
             successfulReport: false,
-            location: null
+            location: null,
+            fileError : false
         }
     }
 
@@ -91,6 +93,15 @@ class Report extends React.Component{
         try {
             // prevent form default submit event
             evt.preventDefault();
+            // check if file field is empty
+            if (evt.target[1].value === '' && evt.target[1].type === 'file'){
+                // set error state to true
+                this.setState({fileError: true});
+                return false;
+            }else{
+                // set error state to false
+                this.setState({fileError: false});
+            }
             // start loading
             this.setState({loading: true});
             // request user location and set as state variable: location
@@ -210,10 +221,18 @@ class Report extends React.Component{
                 }
                 break;
             case 'media':
+
                 // take the first file from field and convert to base64 string
                 let media = await this.getBase64Image(evt.target.files[0]);
-                // set value to state
-                this.setState({media: media});
+                // check if file field is
+                if (!media.includes('data:image')){
+                    this.setState({fileError: true})
+                    evt.target.value = '';
+                }else{
+                    // set value to state
+                    this.setState({media: media});
+                    this.setState({fileError: false})
+                }
                 break;
             default :
                 // set value to state
@@ -281,6 +300,11 @@ class Report extends React.Component{
             :
             ""
         ;
+        const fileError = this.state.fileError ?
+            <p id="fileError">Warning: Please Upload an image file</p>
+            :
+            ""
+        ;
         return(
             <div className="report">
                 <div className="reportContent">
@@ -295,6 +319,7 @@ class Report extends React.Component{
                                 <h2><label htmlFor="media">Please upload an image:</label></h2>
                             </legend>
                             <input name="media" id="media" type="file" accept="image/*" onChange={(evt) => this.handleInput(evt)} />
+                            {fileError}
                         </fieldset>
                         <fieldset>
                             <legend>
