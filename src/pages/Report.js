@@ -27,7 +27,8 @@ class Report extends React.Component{
             storedUploaded: false,
             successfulReport: false,
             location: null,
-            fileError : false
+            fileError : false,
+            locationError: false
         }
     }
 
@@ -110,6 +111,7 @@ class Report extends React.Component{
                 "lng": getLocation.coords.longitude,
                 "lat": getLocation.coords.latitude
             })
+            this.setState({locationError: false});
             this.setState({location: location});
             // check if the user is connected to a network
             if (navigator.onLine) {
@@ -198,7 +200,13 @@ class Report extends React.Component{
      */
     getLocation(){
         return new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject);
+            navigator.geolocation.getCurrentPosition(resolve, (e)=>{
+                //
+                this.setState({locationError: true});
+                // stop loading
+                this.setState({loading: false});
+                reject(e);
+            }, {timeout: 5000});
         });
     }
 
@@ -278,6 +286,14 @@ class Report extends React.Component{
             :
             <input name="btnSubmit" type="submit" className="submit" value="Submit"/>
         ;
+        const locationError = this.state.locationError ?
+            <div className="reportBanner warning">
+                <p>Unfortunately we weren't able to collect your location, please check you give us location permission and try again!</p>
+                <div id="storedReport" className="alertClose" onClick={(evt) => this.handleClose(evt)}>+</div>
+            </div>
+            :
+            ""
+        ;
         const storedReport = this.state.storedReport ?
             <div className="reportBanner warning">
                 <p>Unfortunately we are not able to send your report to our servers right now, but the details have been stored and will be sent when next possible!</p>
@@ -310,12 +326,13 @@ class Report extends React.Component{
         return(
             <div className="report">
                 <div className="reportContent">
+                    {locationError}
                     {successfulReport}
                     {storedReport}
                     {storedUploaded}
                     <form className="reportForm" onSubmit={(evt) => this.handleSubmit(evt)}>
                         <h1>Report a Sighting</h1>
-                        <h2>Please detail the conditions of your sighting here:</h2>
+                        <h2>Please detail the conditions of your sighting here, we will also request your location on submission.</h2>
                         <fieldset>
                             <legend>
                                 <h2><label htmlFor="media">Please upload an image:</label></h2>
