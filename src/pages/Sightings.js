@@ -34,12 +34,10 @@ class Sightings extends React.Component {
                 } else if (cachedJson) {
                     const json = JSON.parse(cachedJson);
                     this.buildTable(json);
-                    this.setState({content: this.state.content});
                 }
             } else if (cachedJson) {
                 const json = JSON.parse(cachedJson);
                 this.buildTable(json);
-                this.setState({content: this.state.content});
             }
             this.setState({loading: false});
         }catch (e) {
