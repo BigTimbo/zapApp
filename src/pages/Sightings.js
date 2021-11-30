@@ -1,6 +1,6 @@
 import React from 'react';
 import '../CSS/Sightings.css';
-import Loading from '../images/loading.gif';
+import Loading from '../media/loading.gif';
 
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
@@ -71,7 +71,7 @@ class Sightings extends React.Component {
                         <td className="modal-cell" onClick={(evt)=>{this.handleClick(evt)}}>
                             <div hidden={true} className="modal">
                                 <span className="close" onClick={(evt)=> {this.handleClick(evt)}}>&times;</span>
-                                <img className="modal-content" alt={`user submitted sighting for ID ${json.sightings[i].ID}`} src={require(`../images/userImages/${json.sightings[i].media}`).default}/>
+                                <img className="modal-content" alt={`user submitted sighting for ID ${json.sightings[i].ID}`} src={require(`./src/media/userImages/${json.sightings[i].media}`).default}/>
                             </div>
                             Show Image
                         </td>

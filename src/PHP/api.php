@@ -38,7 +38,7 @@ class api extends db
             return;
         }
         $mediaName = uniqid().((strpos($b64, 'data:image/jpeg') !== false) ? '.jpg' : '.png');
-        $mediaPath = '../images/userImages/' . $mediaName;
+        $mediaPath = '../media/userImages/' . $mediaName;
         file_put_contents($mediaPath, file_get_contents($b64));
         $stmt = $this->connect()->prepare('INSERT INTO sightings(location, media, alive, causeOfDeath, notes) VALUES(?, ?, ?, ?, ?)');
         $stmt->execute([$location, $mediaName, $alive, $causeOfDeath, $notes]);

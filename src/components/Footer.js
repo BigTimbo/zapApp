@@ -1,9 +1,9 @@
 import React from 'react';
 import '../CSS/Footer.css';
-import Twitter from '../images/twitter-icon.png';
-import Facebook from '../images/facebook-icon.png';
-import Instagram from '../images/instagram-icon.png';
-import Youtube from '../images/youtube-icon.png';
+import Twitter from '../media/twitter-icon.png';
+import Facebook from '../media/facebook-icon.png';
+import Instagram from '../media/instagram-icon.png';
+import Youtube from '../media/youtube-icon.png';
 
 function header() {
     return (

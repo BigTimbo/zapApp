@@ -1,6 +1,6 @@
 import React from 'react';
 import '../CSS/Report.css';
-import Loading from "../images/loading.gif";
+import Loading from "../media/loading.gif";
 
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
@@ -139,6 +139,11 @@ class Report extends React.Component{
             }
             // reset the form fields for new submissions
             evt.target.reset();
+            this.setState({media: null});
+            this.setState({alive: 1});
+            this.setState({causeOfDeath: null});
+            this.setState({notes: null});
+            this.setState({location: null})
             this.setState({CoDVisible: false});
             // stop loading
             this.setState({loading: false});
