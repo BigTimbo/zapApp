@@ -27,15 +27,19 @@ class api extends db
     private function post(): void
     {
         $location = $_POST['location'];
-        $mediaName = $_POST['media'];
+        $b64 = $_POST['media'];
         $alive = $_POST['alive'];
         $causeOfDeath = $_POST['causeOfDeath'];
         $notes = $_POST['notes'];
-        $b64Check = str_replace("data:image/jpeg;base64,", "", $mediaName);
-        if (base64_encode(base64_decode($b64Check, true)) !== $b64Check || empty($location)){
+        $b64Strip = str_replace("data:image/jpeg;base64,", "", $b64);
+        $b64Strip = str_replace("data:image/png;base64,", "", $b64Strip);
+        if (base64_encode(base64_decode($b64Strip, true)) !== $b64Strip || empty($location)){
             http_response_code(400);
             return;
         }
+        $mediaName = uniqid().((strpos($b64, 'data:image/jpeg') !== false) ? '.jpg' : '.png');
+        $mediaPath = '../images/userImages/' . $mediaName;
+        file_put_contents($mediaPath, file_get_contents($b64));
         $stmt = $this->connect()->prepare('INSERT INTO sightings(location, media, alive, causeOfDeath, notes) VALUES(?, ?, ?, ?, ?)');
         $stmt->execute([$location, $mediaName, $alive, $causeOfDeath, $notes]);
         http_response_code(201);

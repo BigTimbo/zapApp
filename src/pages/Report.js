@@ -233,8 +233,8 @@ class Report extends React.Component{
                 if (evt.target.value !== ''){
                     // take the first file from field and convert to base64 string
                     let media = await this.getBase64Image(evt.target.files[0]);
-                    // check if file field is
-                    if (!media.includes('data:image')){
+                    // check if file field is either jpeg/jpg or png
+                    if (!media.includes('data:image/jpeg') && !media.includes('data:image/png')){
                         this.setState({fileError: true})
                         evt.target.value = '';
                     }else{
@@ -319,7 +319,7 @@ class Report extends React.Component{
             ""
         ;
         const fileError = this.state.fileError ?
-            <p id="fileError">Warning: Please Upload an image file</p>
+            <p id="fileError">Warning: Please Upload an image file either .JPG, .JPEG or .PNG</p>
             :
             ""
         ;
