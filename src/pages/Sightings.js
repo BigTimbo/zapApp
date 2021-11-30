@@ -20,6 +20,7 @@ class Sightings extends React.Component {
         try {
             const cachedJson = localStorage.getItem('allSightings');
             if (navigator.onLine) {
+                // https://ta459.brighton.domains/static/PHP
                 const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', this.controller);
                 if (response.ok) {
                     localStorage.removeItem('allSightings');
@@ -71,7 +72,7 @@ class Sightings extends React.Component {
                         <td className="modal-cell" onClick={(evt)=>{this.handleClick(evt)}}>
                             <div hidden={true} className="modal">
                                 <span className="close" onClick={(evt)=> {this.handleClick(evt)}}>&times;</span>
-                                <img className="modal-content" alt={`user submitted sighting for ID ${json.sightings[i].ID}`} src={require(`../images/userImages/${json.sightings[i].media}`).default}/>
+                                <img className="modal-content" alt={`user submitted sighting for ID ${json.sightings[i].ID}`} src={require(`../userImages/${json.sightings[i].media}`).default}/>
                             </div>
                             Show Image
                         </td>
