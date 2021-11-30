@@ -1,6 +1,7 @@
 import React from 'react';
 import '../CSS/Sightings.css';
 import Loading from '../images/loading.gif';
+import offlinePlaceholder from '../images/offline-placeholder.png';
 
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
@@ -14,13 +15,15 @@ class Sightings extends React.Component {
             content : null,
             loading : true,
             sightingsMap : null,
-            imageSrc : null
+            imageSrc : null,
+            online : null
         }
     }
     async componentDidMount(){
         try {
             const cachedJson = localStorage.getItem('allSightings');
             if (navigator.onLine) {
+                this.setState({online: true})
                 //  http://localhost:63342/zapapp/src/PHP/api.php
                 const response = await fetch('https://ta459.brighton.domains/static/PHP/api.php', this.controller);
                 if (response.ok) {
@@ -31,11 +34,14 @@ class Sightings extends React.Component {
                     }
                     const storeLocal = JSON.stringify(json);
                     localStorage.setItem('allSightings', storeLocal);
-                } else if (cachedJson) {
+                }
+                else if (cachedJson) {
+                    this.setState({online: false});
                     const json = JSON.parse(cachedJson);
                     this.buildTable(json);
                 }
             } else if (cachedJson) {
+                this.setState({online: false})
                 const json = JSON.parse(cachedJson);
                 this.buildTable(json);
             }
@@ -60,11 +66,11 @@ class Sightings extends React.Component {
         const baseURL = 'https://ta459.brighton.domains/static/userImages/';
         if (json.sightings){
             for (let i = 0; i < json.sightings.length; i++) {
+                this.state.online ? this.setState({imgSrc: baseURL + json.sightings[i].media}) : this.setState({imgSrc: baseURL + offlinePlaceholder});
                 let location = json.sightings[i].location;
                 location = JSON.parse(location);
                 const pin = `pin-s-${json.sightings[i].ID}+555555(${location.lng},${location.lat})`;
                 mapContent.push(pin);
-                this.setState({imgSrc: baseURL + json.sightings[i].media});
                 content.push(
                     <tr key={json.sightings[i].ID} >
                         <td>{json.sightings[i].ID}</td>
