@@ -1,6 +1,6 @@
 .parallax {
     /* The image used */
-    background-image: url("../media/pangolin-index.jpg");
+    background-image: url("../images/pangolin-index.jpg");
 
     /* Set a specific height */
     min-height: 40vh;
