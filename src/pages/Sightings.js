@@ -72,11 +72,7 @@ class Sightings extends React.Component {
                         <td className="modal-cell" onClick={(evt)=>{this.handleClick(evt)}}>
                             <div hidden={true} className="modal">
                                 <span className="close" onClick={(evt)=> {this.handleClick(evt)}}>&times;</span>
-<<<<<<< HEAD
                                 <img className="modal-content" alt={`user submitted sighting for ID ${json.sightings[i].ID}`} src={require(`../userImages/${json.sightings[i].media}`).default}/>
-=======
-                                <img className="modal-content" alt={`user submitted sighting for ID ${json.sightings[i].ID}`} src={require(`../images/userImages/${json.sightings[i].media}`).default}/>
->>>>>>> parent of 54d6cfa (iamges > media)
                             </div>
                             Show Image
                         </td>
