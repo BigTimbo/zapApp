@@ -20,8 +20,8 @@ class Sightings extends React.Component {
         try {
             const cachedJson = localStorage.getItem('allSightings');
             if (navigator.onLine) {
-                // https://ta459.brighton.domains/static/PHP
-                const response = await fetch('http://localhost:63342/zapapp/src/PHP/api.php', this.controller);
+                //  http://localhost:63342/zapapp/src/PHP/api.php
+                const response = await fetch('https://ta459.brighton.domains/static/PHP/api.php', this.controller);
                 if (response.ok) {
                     localStorage.removeItem('allSightings');
                     const json = await response.json();
