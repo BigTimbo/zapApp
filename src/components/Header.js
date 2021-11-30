@@ -1,8 +1,8 @@
 import React from 'react';
-import Logo from '../images/Logo.png';
+import Logo from '../media/Logo.png';
 import {Link} from 'react-router-dom';
 import '../CSS/Header.css';
-import MenuIcon from '../images/menu-icon.png';
+import MenuIcon from '../media/menu-icon.png';
 
 function header() {
     return (
