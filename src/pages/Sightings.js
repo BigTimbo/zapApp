@@ -14,6 +14,7 @@ class Sightings extends React.Component {
             content : null,
             loading : true,
             sightingsMap : null,
+            imageSrc : null
         }
     }
     async componentDidMount(){
@@ -42,7 +43,7 @@ class Sightings extends React.Component {
             }
             this.setState({loading: false});
         }catch (e) {
-            console.log(e)
+            console.log(e);
         }
     }
     componentWillUnmount() {
@@ -58,12 +59,14 @@ class Sightings extends React.Component {
     buildTable(json){
         const content = [];
         const mapContent = [];
+        const baseURL = 'https://ta459.brighton.domains/static/userImages/';
         if (json.sightings){
             for (let i = 0; i < json.sightings.length; i++) {
                 let location = json.sightings[i].location;
                 location = JSON.parse(location);
                 const pin = `pin-s-${json.sightings[i].ID}+555555(${location.lng},${location.lat})`;
                 mapContent.push(pin);
+                this.setState({imgSrc: baseURL + json.sightings[i].media});
                 content.push(
                     <tr key={json.sightings[i].ID} >
                         <td>{json.sightings[i].ID}</td>
@@ -72,7 +75,7 @@ class Sightings extends React.Component {
                         <td className="modal-cell" onClick={(evt)=>{this.handleClick(evt)}}>
                             <div hidden={true} className="modal">
                                 <span className="close" onClick={(evt)=> {this.handleClick(evt)}}>&times;</span>
-                                <img className="modal-content" alt={`user submitted sighting for ID ${json.sightings[i].ID}`} src={require(`../userImages/${json.sightings[i].media}`).default}/>
+                                <img className="modal-content" alt={`user submitted sighting for ID ${json.sightings[i].ID}`} src={this.state.imgSrc}/>
                             </div>
                             Show Image
                         </td>
