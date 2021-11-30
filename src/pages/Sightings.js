@@ -47,6 +47,13 @@ class Sightings extends React.Component {
     componentWillUnmount() {
         this.controller.abort();
     }
+    handleClick(evt){
+        if (evt.target.className === 'close' && !evt.target.parentElement.hidden){
+            evt.target.parentElement.hidden = true;
+        }else if (evt.target.className === 'modal-cell' && evt.target.children[0].hidden) {
+            evt.target.children[0].hidden = false;
+        }
+    }
     buildTable(json){
         const content = [];
         const mapContent = [];
@@ -57,10 +64,17 @@ class Sightings extends React.Component {
                 const pin = `pin-s-${json.sightings[i].ID}+555555(${location.lng},${location.lat})`;
                 mapContent.push(pin);
                 content.push(
-                    <tr key={json.sightings[i].ID}>
+                    <tr key={json.sightings[i].ID} >
                         <td>{json.sightings[i].ID}</td>
                         <td>{json.sightings[i].alive=== '1' ? <p>&#9989;</p> : <p>&#10060;</p>}</td>
                         <td>{json.sightings[i].causeOfDeath === 'null' ? 'none' : json.sightings[i].causeOfDeath}</td>
+                        <td className="modal-cell" onClick={(evt)=>{this.handleClick(evt)}}>
+                            <div hidden={true} className="modal">
+                                <span className="close" onClick={(evt)=> {this.handleClick(evt)}}>&times;</span>
+                                <img className="modal-content" alt={`user submitted sighting for ID ${json.sightings[i].ID}`} src={require(`../images/userImages/${json.sightings[i].media}`).default}/>
+                            </div>
+                            Show Image
+                        </td>
                         <td>{json.sightings[i].notes=== 'null' ? 'none' : json.sightings[i].notes}</td>
                     </tr>
                 );
@@ -83,6 +97,7 @@ class Sightings extends React.Component {
                         <th>ID</th>
                         <th>Alive</th>
                         <th>Cause Of Death</th>
+                        <th>Image</th>
                         <th>Notes</th>
                     </tr>
                     </thead>

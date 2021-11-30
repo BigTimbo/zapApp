@@ -55,6 +55,7 @@ class api extends db
                 $this->response['sightings'][] = [
                     'ID' => $row['ID'],
                     'location' => $row['location'],
+                    'media' => $row['media'],
                     'alive' => $row['alive'],
                     'causeOfDeath' => $row['causeOfDeath'],
                     'notes' => $row['notes']
