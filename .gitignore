@@ -26,5 +26,5 @@ yarn-error.log*
 <<<<<<< HEAD
 /src/userImages/
 =======
-/src/images/userImages/
+/src/userImages/
 >>>>>>> parent of a07d3f0 (iamges > media gitignore)
