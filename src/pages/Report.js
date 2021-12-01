@@ -273,10 +273,10 @@ class Report extends React.Component{
                 </legend>
                 <select name="causeOfDeath" defaultValue="null" id="causeOfDeath" onChange={(evt) => this.handleInput(evt)}>
                     <option value="null">-- select an option --</option>
-                    <option value="electrocution">Fence Death: Electrocution</option>
-                    <option value="caught">Fence Death: Caught on non-electrified fence</option>
-                    <option value="road">Road Death</option>
-                    <option value="other">Other</option>
+                    <option value="Caught on electric fence">Fence Death: Electrocution</option>
+                    <option value="Caught on non-electric fence">Fence Death: Caught on non-electrified fence</option>
+                    <option value="Road Incident">Road Death</option>
+                    <option value="Other">Other</option>
                 </select>
             </fieldset>
             :
