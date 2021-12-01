@@ -15,8 +15,7 @@ class Sightings extends React.Component {
             content : null,
             loading : true,
             sightingsMap : null,
-            imageSrc : null,
-            online : null
+            online : false
         }
     }
     async componentDidMount(){
@@ -66,7 +65,6 @@ class Sightings extends React.Component {
         const baseURL = 'https://ta459.brighton.domains/static/userImages/';
         if (json.sightings){
             for (let i = 0; i < json.sightings.length; i++) {
-                this.state.online ? this.setState({imgSrc: baseURL + json.sightings[i].media}) : this.setState({imgSrc: baseURL + offlinePlaceholder});
                 let location = json.sightings[i].location;
                 location = JSON.parse(location);
                 const pin = `pin-s-${json.sightings[i].ID}+555555(${location.lng},${location.lat})`;
@@ -79,7 +77,7 @@ class Sightings extends React.Component {
                         <td className="modal-cell" onClick={(evt)=>{this.handleClick(evt)}}>
                             <div hidden={true} className="modal">
                                 <span className="close" onClick={(evt)=> {this.handleClick(evt)}}>&times;</span>
-                                <img className="modal-content" alt={`user submitted sighting for ID ${json.sightings[i].ID}`} src={this.state.imgSrc}/>
+                                <img className="modal-content" alt={`user submitted sighting for ID ${json.sightings[i].ID}`} src={this.state.online ? baseURL + json.sightings[i].media : offlinePlaceholder}/>
                             </div>
                             Show Image
                         </td>
