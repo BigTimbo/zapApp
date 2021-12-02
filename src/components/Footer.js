@@ -5,6 +5,13 @@ import Facebook from '../images/facebook-icon.png';
 import Instagram from '../images/instagram-icon.png';
 import Youtube from '../images/youtube-icon.png';
 
+/**
+ * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
+ * @see {@link https://github.com/BigTimbo/zapApp}
+ *
+ * Footer component containing social media navigation
+ * @returns {JSX.Element}
+ */
 function header() {
     return (
         <div className="footer">

@@ -5,9 +5,7 @@ import '../CSS/Home.css';
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
  * @see {@link https://github.com/BigTimbo/zapApp}
- */
-
-/**
+ *
  * Home page containing content on the dangers that face the Pangolin species.
  * @returns {JSX.Element}
  * @constructor

@@ -4,9 +4,7 @@ import '../CSS/About.css';
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
  * @see {@link https://github.com/BigTimbo/zapApp}
- */
-
-/**
+ *
  * About page that contains content presenting a mission statement.
  * @returns {JSX.Element}
  * @constructor

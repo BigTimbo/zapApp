@@ -5,9 +5,13 @@ import Loading from "../images/loading.gif";
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
  * @see {@link https://github.com/BigTimbo/zapApp}
+ *
+ * The Report class holds the logic and content for the report page, which allows users to submit a Pangolin sighting report.
  */
 class Report extends React.Component{
-    // abort controller used to prevent memory leaks on fetch requests
+    /** Abort controller used to prevent memory leaks on fetch requests.
+     * @type {AbortController}
+     */
     controller = new AbortController();
     /**
      * This is a React method that initialises the state variables and is called on class object creation.
@@ -38,39 +42,43 @@ class Report extends React.Component{
      * then continues to loop through, uploading and removing any reports.
      */
     async componentDidMount() {
-        // bundle local storage upload within try/catch in case of browser/device incompatibility & memory leaks
+        /**
+         * Bundled local storage upload within try/catch in case of browser/device incompatibility & memory leaks.
+         */
         try{
-            // check if the user is connected to a network
+            /** Check if the user is connected to a network. */
             if (navigator.onLine){
-                // check if there are any reports saved to local storage
+                /** Check if there are any reports saved to local storage. */
                 if (localStorage.length > 0){
-                    //gather only my own report keys
+                    /** Assign all report keys to variable. */
                     const keys = Object.keys(localStorage);
+                    /** Create a new FormData object */
                     const data = new FormData();
-                    // for each report key, parse the JSON and send the content to my API
+                    /** For each report key in local storage */
                     for(let key of keys) {
+                        /** Check if the key is not the key from sightings page. */
                         if (key !== 'allSightings'){
-                            // set the user notification responses
+                            /** Reset the user notification responses. */
                             this.setState({storedReport: true});
                             this.setState({storedUploaded: false});
-                            // gather this key content
+                            /** Assign the key's content to variable. */
                             const storedKey = localStorage.getItem(key);
-                            // parse this key content as JSON
+                            /** Parse the key's content as JSON */
                             const storedJSON = JSON.parse(storedKey);
-                            // append all the JSON values to the respective form data key
+                            /** Append all the JSON values to the respective formData key. */
                             data.append('location', storedJSON.location);
                             data.append( 'media', storedJSON.media);
                             data.append('alive', storedJSON.alive);
                             data.append('causeOfDeath', storedJSON.causeOfDeath);
                             data.append('notes', storedJSON.notes);
-                            // send the fetch request to my API with post body
+                            /** Parse formData to sendPost method with abortController. */
                             const response = await this.sendPost(data, this.controller);
-                            // check if fetch response is OK
+                            /** Check if fetch response is OK. */
                             if (response.ok){
-                                // set the user notification responses
+                                /** Set the user notification responses. */
                                 this.setState({storedUploaded: true});
                                 this.setState({storedReport: false});
-                                // wipe the key from the local storage
+                                /** Remove the key from the local storage */
                                 localStorage.removeItem(key);
                             }
                         }
@@ -78,9 +86,15 @@ class Report extends React.Component{
                 }
             }
         }catch (e){
+            /** Catch and log any errors to console. */
             console.log(e);
         }
     }
+
+    /**
+     * This is a React method that is called when the component is unmounted on exit.
+     * The abort controller is activated which accounts for any ongoing fetch requests that could cause memory leaks.
+     */
     componentWillUnmount() {
         this.controller.abort();
     }
@@ -90,22 +104,22 @@ class Report extends React.Component{
      * @param evt Event of form submission.
      */
     async handleSubmit(evt) {
-        // bundle whole handle submit within try/catch in case of browser/device incompatibility & memory leaks
+        /** Bundled handle submit within try/catch in case of browser/device incompatibility & memory leaks. */
         try {
-            // prevent form default submit event
+            /** Prevent form default submit event */
             evt.preventDefault();
-            // check if file field is empty
+            /** Check if file field is empty. */
             if (evt.target[1].value === '' && evt.target[1].type === 'file'){
-                // set error state to true
+                /** Set file error state to true and return false to break the code. */
                 this.setState({fileError: true});
                 return false;
             }else{
-                // set error state to false
+                /** Otherwise set error state to false. */
                 this.setState({fileError: false});
             }
-            // start loading
+            /** Start loading gif. */
             this.setState({loading: true});
-            // request user location and set as state variable: location
+            /** Call getLocation method, set as state variable with location JSON & clear potential location error state. */
             const getLocation = await this.getLocation();
             const location = JSON.stringify({
                 "lng": getLocation.coords.longitude,
@@ -113,36 +127,37 @@ class Report extends React.Component{
             })
             this.setState({locationError: false});
             this.setState({location: location});
-            // check if the user is connected to a network
+            /** Check if the user is connected to a network. */
             if (navigator.onLine) {
                 const data = new FormData();
-                // append all the state values to the respective form data key
+                /** Append all the state values to the respective formData key. */
                 data.append('location', this.state.location);
                 data.append('media', this.state.media);
                 data.append('alive', this.state.alive);
                 data.append('causeOfDeath', this.state.causeOfDeath);
                 data.append('notes', this.state.notes);
-                // send the fetch request to my API with post body
+                /** Parse formData to sendPost method with abortController. */
                 const response = await this.sendPost(data, this.controller);
-                // check if fetch response is OK
+                /** Check if fetch response is OK. */
                 if (response.ok) {
-                    // set the user notification responses
+                    /** Set the user notification responses. */
                     this.setState({successfulReport: true});
                     this.setState({storedUploaded: false});
                 } else {
-                    // store values to localStorage
+                    /** Otherwise Store values to local storage. */
                     this.storeLocal();
                 }
             } else {
-                // store values to localStorage
+                /** Otherwise store values to local storage. */
                 this.storeLocal();
             }
-            // reset the form fields for new submissions
+            /** Reset the form fields for new submissions. */
             evt.target.reset();
             this.setState({CoDVisible: false});
-            // stop loading
+            /** Stop loading Gif. */
             this.setState({loading: false});
         }catch (e){
+            /** Catch and log any errors to console. */
             console.log(e);
         }
     }
@@ -152,7 +167,7 @@ class Report extends React.Component{
      */
     storeLocal(){
         this.setState({storedReport: true});
-        // create a string from the json of report values
+        /** Create a string from the JSON of report field values. */
         const data = JSON.stringify({
             'location' : this.state.location,
             'media' : this.state.media,
@@ -160,9 +175,9 @@ class Report extends React.Component{
             'causeOfDeath' : this.state.causeOfDeath,
             'notes' : this.state.notes
         })
-        // create a unique key from date number to string
+        /** Create a unique key from date and convert to string. */
         const uniqueKey = (new Date()).getTime().toString();
-        // save the report content to unique key
+        /** Save the report content to unique key. */
         localStorage.setItem(uniqueKey, data);
     }
 
@@ -173,7 +188,6 @@ class Report extends React.Component{
      * @returns {Promise<Response>} Returns a POST HTTP request response.
      */
     async sendPost(data, controller){
-        //  http://localhost:63342/zapapp/src/PHP/api.php
         return await fetch('https://ta459.brighton.domains/static/PHP/api.php', {
             controller,
             method: 'POST',
@@ -182,8 +196,8 @@ class Report extends React.Component{
     }
 
     /**
-     * This method is called to convert a file to base64 and returns a base64 string from the promise.
-     * @param img
+     * This method is called to convert a file to base64 and returns a base64 string from the promise object.
+     * @param img Image blob.
      * @returns {Promise<String>} Returns a String of base64.
      */
     getBase64Image(img) {
@@ -202,10 +216,11 @@ class Report extends React.Component{
     getLocation(){
         return new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, (e)=>{
-                //
+                /** If the location request is rejected set error state. */
                 this.setState({locationError: true});
-                // stop loading
+                /** Stop loading Gif. */
                 this.setState({loading: false});
+                /** Parse back the error event through to the Promise reject handle. */
                 reject(e);
             }, {timeout: 5000});
         });
@@ -220,9 +235,9 @@ class Report extends React.Component{
     async handleInput(evt) {
         switch (evt.target.name) {
             case 'alive':
-                // set value to state
+                /** Set value of alive field to state. */
                 this.setState({alive: evt.target.value});
-                // change state for causeOfDeath field to become visible/rendered on the page.
+                /** Change state for causeOfDeath field to become visible on the page if field is 1 or not if 0. */
                 if (evt.target.value === "0") {
                     this.setState({CoDVisible: true})
                 } else {
@@ -230,30 +245,31 @@ class Report extends React.Component{
                 }
                 break;
             case 'media':
-                // check if input isn't empty after change
+                /** Check if input isn't empty. */
                 if (evt.target.value !== ''){
-                    // take the first file from field and convert to base64 string
+                    /** Parse the first submitted file to the getBase64Image method. */
                     let media = await this.getBase64Image(evt.target.files[0]);
-                    // check if file field is either jpeg/jpg or png
+                    /** Check file is neither jpeg/jpg or png */
                     if (!media.includes('data:image/jpeg') && !media.includes('data:image/png')){
+                        /** if the file isn't one of those image types, report the error and reset the file field */
                         this.setState({fileError: true})
                         evt.target.value = '';
                     }else{
-                        // set value to state
+                        /** Otherwise set value of media field to Base64 image & reset error state */
                         this.setState({media: media});
                         this.setState({fileError: false})
                     }
                 }
                 break;
             default :
-                // set value to state
+                /** for all other input fields, set the state of field target to field value */
                 this.setState({[evt.target.name]: evt.target.value})
                 break;
         }
     }
 
     /**
-     *
+     * This method handles close button onClick events, settings the state of element target to the inverse boolean.
      * @param evt
      */
     handleClose(evt){
@@ -266,6 +282,7 @@ class Report extends React.Component{
      * @returns {JSX.Element}
      */
     render(){
+        /** This ternary statement will render the causeOfDeath fields based on state boolean value. */
         const CoD = this.state.CoDVisible ?
             <fieldset>
                 <legend>
@@ -282,11 +299,13 @@ class Report extends React.Component{
             :
             ""
         ;
+        /** This ternary statement will render the loading gif based on state boolean value. */
         const loading = this.state.loading ?
             <img id="loading" src={Loading} width="50px" height="50px" alt="Loading Animation"/>
             :
             <input name="btnSubmit" type="submit" className="submit" value="Submit"/>
         ;
+        /** This ternary statement will render the location error warning based on state boolean value. */
         const locationError = this.state.locationError ?
             <div className="reportBanner warning">
                 <p>Unfortunately we weren't able to collect your location, please check you give us location permission and try again!</p>
@@ -295,6 +314,7 @@ class Report extends React.Component{
             :
             ""
         ;
+        /** This ternary statement will render the locally stored report warning based on state boolean value. */
         const storedReport = this.state.storedReport ?
             <div className="reportBanner warning">
                 <p>Unfortunately we are not able to send your report to our servers right now, but the details have been stored and will be sent when next possible!</p>
@@ -303,6 +323,7 @@ class Report extends React.Component{
             :
             ""
         ;
+        /** This ternary statement will render the locally stored report upload successful based on state boolean value. */
         const storedUploaded = this.state.storedUploaded ?
             <div className="reportBanner good">
                 <p>We have successfully uploaded the stored reports!</p>
@@ -311,6 +332,7 @@ class Report extends React.Component{
             :
             ""
         ;
+        /** This ternary statement will render the report upload successful based on state boolean value. */
         const successfulReport = this.state.successfulReport ?
             <div className="reportBanner good">
                 <p>Successfully uploaded your report!</p>
@@ -319,11 +341,13 @@ class Report extends React.Component{
             :
             ""
         ;
+        /** This ternary statement will render the file input mismatch based on state boolean value. */
         const fileError = this.state.fileError ?
             <p id="fileError">Warning: Please Upload an image file either .JPG, .JPEG or .PNG</p>
             :
             ""
         ;
+        /** This section returns back the conditionally rendered components. */
         return(
             <div className="report">
                 <div className="reportContent">
