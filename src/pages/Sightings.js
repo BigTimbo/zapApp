@@ -2,6 +2,7 @@ import React from 'react';
 import '../CSS/Sightings.css';
 import Loading from '../images/loading.gif';
 import offlinePlaceholder from '../images/offline-placeholder.png';
+import offlineMap from '../images/map-offline.png';
 
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
@@ -155,7 +156,7 @@ class Sightings extends React.Component {
             </div>
             :
             <div className="sightingsContent">
-                <img src={this.state.sightingsMap ? this.state.sightingsMap : "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/23.5713,-28.6876,5.1,0/1280x720?access_token=pk.eyJ1IjoiYmlndGltYm8iLCJhIjoiY2t3YWcxeTMwMXM0NzJ2cmg4b2o0YnhsaiJ9.JZWpZWaRPgctxFfIP0Vsqw"} width="1280px" height="720px" className="map"  alt="Sightings map" />
+                <img src={this.state.sightingsMap ? this.state.sightingsMap : (this.state.online ? "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/23.5713,-28.6876,5.1,0/1280x720?access_token=pk.eyJ1IjoiYmlndGltYm8iLCJhIjoiY2t3YWcxeTMwMXM0NzJ2cmg4b2o0YnhsaiJ9.JZWpZWaRPgctxFfIP0Vsqw" : offlineMap)} width="1280px" height="720px" className="map"  alt="Sightings map" />
                 <table id="sightingsTable">
                     <thead>
                     <tr>
