@@ -1,8 +1,8 @@
 import React from 'react';
 import '../CSS/Sightings.css';
 import Loading from '../images/loading.gif';
-import offlinePlaceholder from '../images/offline-placeholder.png';
-import offlineMap from '../images/map-offline.png';
+import offlinePlaceholder from '../images/offline-placeholder.avif';
+import offlineMap from '../images/map-offline.avif';
 
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>
@@ -129,7 +129,8 @@ class Sightings extends React.Component {
                         <td className="modal-cell" onClick={(evt)=>{this.handleClick(evt)}}>
                             <div hidden={true} className="modal">
                                 <span className="close" onClick={(evt)=> {this.handleClick(evt)}}>&times;</span>
-                                <img className="modal-content" alt={`user submitted sighting for ID ${json.sightings[i].ID}`} src={this.state.online ? baseURL + json.sightings[i].media : offlinePlaceholder}/>
+                                <img className="modal-content" alt={`user submitted sighting for ID 
+                                ${json.sightings[i].ID}`} src={this.state.online ? baseURL + json.sightings[i].media : offlinePlaceholder}/>
                             </div>
                             Show Image
                         </td>
@@ -156,7 +157,14 @@ class Sightings extends React.Component {
             </div>
             :
             <div className="sightingsContent">
-                <img src={this.state.sightingsMap ? this.state.sightingsMap : (this.state.online ? "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/23.5713,-28.6876,5.1,0/1280x720?access_token=pk.eyJ1IjoiYmlndGltYm8iLCJhIjoiY2t3YWcxeTMwMXM0NzJ2cmg4b2o0YnhsaiJ9.JZWpZWaRPgctxFfIP0Vsqw" : offlineMap)} width="1280px" height="720px" className="map"  alt="Sightings map" />
+                <img src={this.state.sightingsMap ?
+                    this.state.sightingsMap
+                    :
+                    (this.state.online ?
+                        "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/23.5713,-28.6876,5.1,0/1280x720?access_token=pk.eyJ1IjoiYmlndGltYm8iLCJhIjoiY2t3YWcxeTMwMXM0NzJ2cmg4b2o0YnhsaiJ9.JZWpZWaRPgctxFfIP0Vsqw"
+                        :
+                        offlineMap)
+                } width="1280px" height="720px" className="map"  alt="Sightings map" />
                 <table id="sightingsTable">
                     <thead>
                     <tr>

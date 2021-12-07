@@ -5,9 +5,14 @@
   "start_url": ".",
   "orientation" : "portrait",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#FFFFFF",
   "background_color": "#ffffff",
   "icons": [
+    {
+      "src": "favicon.ico",
+      "purpose": "any maskable",
+      "sizes": "16x16"
+    },
     {
       "src": "windows11/SmallTile.scale-100.png",
       "sizes": "71x71"

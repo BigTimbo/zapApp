@@ -1,8 +1,8 @@
 import React from 'react';
-import Logo from '../images/Logo.png';
+import Logo from '../images/Logo.avif';
 import {Link} from 'react-router-dom';
 import '../CSS/Header.css';
-import MenuIcon from '../images/menu-icon.png';
+import MenuIcon from '../images/menu-icon.avif';
 
 /**
  * @author Tim Amis <t.amis1@uni.brighton.ac.uk>

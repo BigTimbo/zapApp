@@ -321,7 +321,8 @@ class Report extends React.Component{
         /** This ternary statement will render the locally stored report warning based on state boolean value. */
         const storedReport = this.state.storedReport ?
             <div className="reportBanner warning">
-                <p>Unfortunately we are not able to send your report to our servers right now, but the details have been stored and will be sent when next possible!</p>
+                <p>Unfortunately we are not able to send your report to our servers right now, but the details have been
+                    stored and will be sent when next possible!</p>
                 <div id="storedReport" className="alertClose" onClick={(evt) => this.handleClose(evt)}>+</div>
             </div>
             :
@@ -366,7 +367,8 @@ class Report extends React.Component{
                             <legend>
                                 <h2><label htmlFor="media">Please upload an image:</label></h2>
                             </legend>
-                            <input name="media" id="media" type="file" accept="image/*" onChange={(evt) => this.handleInput(evt)} />
+                            <input name="media" id="media" type="file" accept="image/*"
+                                   onChange={(evt) => this.handleInput(evt)} />
                             {fileError}
                         </fieldset>
                         <fieldset>
@@ -383,7 +385,8 @@ class Report extends React.Component{
                             <legend>
                                 <h2><label htmlFor="notes">Notes</label></h2>
                             </legend>
-                            <textarea placeholder="Type your notes here...." name="notes" className="notes" onChange={(evt) => this.handleInput(evt)} />
+                            <textarea placeholder="Type your notes here...." name="notes" className="notes"
+                                      onChange={(evt) => this.handleInput(evt)} />
                             <span className="notes_error" />
                         </fieldset>
                         {loading}
