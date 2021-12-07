@@ -108,7 +108,7 @@ class Report extends React.Component{
         try {
             /** Prevent form default submit event */
             evt.preventDefault();
-            /** Check if file field is empty. */
+            /** Check if file field is empty and of type file. */
             if (evt.target[1].value === '' && evt.target[1].type === 'file'){
                 /** Set file error state to true and return false to break the code. */
                 this.setState({fileError: true});
