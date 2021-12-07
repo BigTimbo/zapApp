@@ -201,16 +201,12 @@ class Report extends React.Component{
      * @returns {Promise<String>} Returns a String of base64.
      */
     getBase64Image(img) {
-        try{
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader()
-                reader.onloadend = () => resolve(reader.result)
-                reader.onerror = reject
-                reader.readAsDataURL(img)
-            });
-        }catch (e) {
-            console.log(e);
-        }
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onloadend = () => resolve(reader.result)
+            reader.onerror = reject
+            reader.readAsDataURL(img)
+        });
     }
 
     /**
@@ -237,38 +233,42 @@ class Report extends React.Component{
      * @param evt
      */
     async handleInput(evt) {
-        switch (evt.target.name) {
-            case 'alive':
-                /** Set value of alive field to state. */
-                this.setState({alive: evt.target.value});
-                /** Change state for causeOfDeath field to become visible on the page if field is 1 or not if 0. */
-                if (evt.target.value === "0") {
-                    this.setState({CoDVisible: true})
-                } else {
-                    this.setState({CoDVisible: false})
-                }
-                break;
-            case 'media':
-                /** Check if input isn't empty. */
-                if (evt.target.value !== ''){
-                    /** Parse the first submitted file to the getBase64Image method. */
-                    let media = await this.getBase64Image(evt.target.files[0]);
-                    /** Check file is neither jpeg/jpg or png */
-                    if (!media.includes('data:image/jpeg') && !media.includes('data:image/png')){
-                        /** if the file isn't one of those image types, report the error and reset the file field */
-                        this.setState({fileError: true})
-                        evt.target.value = '';
-                    }else{
-                        /** Otherwise set value of media field to Base64 image & reset error state */
-                        this.setState({media: media});
-                        this.setState({fileError: false})
+        try{
+            switch (evt.target.name) {
+                case 'alive':
+                    /** Set value of alive field to state. */
+                    this.setState({alive: evt.target.value});
+                    /** Change state for causeOfDeath field to become visible on the page if field is 1 or not if 0. */
+                    if (evt.target.value === "0") {
+                        this.setState({CoDVisible: true})
+                    } else {
+                        this.setState({CoDVisible: false})
                     }
-                }
-                break;
-            default :
-                /** for all other input fields, set the state of field target to field value */
-                this.setState({[evt.target.name]: evt.target.value})
-                break;
+                    break;
+                case 'media':
+                    /** Check if input isn't empty. */
+                    if (evt.target.value !== ''){
+                        /** Parse the first submitted file to the getBase64Image method. */
+                        let media = await this.getBase64Image(evt.target.files[0]);
+                        /** Check file is neither jpeg/jpg or png */
+                        if (!media.includes('data:image/jpeg') && !media.includes('data:image/png')){
+                            /** if the file isn't one of those image types, report the error and reset the file field */
+                            this.setState({fileError: true})
+                            evt.target.value = '';
+                        }else{
+                            /** Otherwise set value of media field to Base64 image & reset error state */
+                            this.setState({media: media});
+                            this.setState({fileError: false})
+                        }
+                    }
+                    break;
+                default :
+                    /** for all other input fields, set the state of field target to field value */
+                    this.setState({[evt.target.name]: evt.target.value})
+                    break;
+            }
+        }catch (e) {
+            console.log(e);
         }
     }
 
