@@ -201,12 +201,16 @@ class Report extends React.Component{
      * @returns {Promise<String>} Returns a String of base64.
      */
     getBase64Image(img) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader()
-            reader.onloadend = () => resolve(reader.result)
-            reader.onerror = reject
-            reader.readAsDataURL(img)
-        })
+        try{
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader()
+                reader.onloadend = () => resolve(reader.result)
+                reader.onerror = reject
+                reader.readAsDataURL(img)
+            });
+        }catch (e) {
+            console.log(e);
+        }
     }
 
     /**
