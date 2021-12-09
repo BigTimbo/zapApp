@@ -32,7 +32,8 @@ class Report extends React.Component{
             successfulReport: false,
             location: null,
             fileError : false,
-            locationError: false
+            locationError: false,
+            CoDError: false
         }
     }
 
@@ -104,6 +105,7 @@ class Report extends React.Component{
      * @param evt Event of form submission.
      */
     async handleSubmit(evt) {
+        console.log(evt.target[5].name === 'causeOfDeath' && evt.target[5].value === 'null' && evt.target[3].value === "0");
         /** Bundled handle submit within try/catch in case of browser/device incompatibility & memory leaks. */
         try {
             /** Prevent form default submit event */
@@ -116,6 +118,15 @@ class Report extends React.Component{
             }else{
                 /** Otherwise set error state to false. */
                 this.setState({fileError: false});
+            }
+            /** Check if Cause of death field has correct option selected */
+            if (evt.target[5].name === 'causeOfDeath' && evt.target[5].value === 'null' && evt.target[3].value === "0"){
+                /** Set CoD error state to true and return false to break the code. */
+                this.setState({CoDError: true});
+                return false;
+            }else{
+                /** Otherwise set error state to false. */
+                this.setState({CoDError: false});
             }
             /** Start loading gif. */
             this.setState({loading: true});
@@ -352,6 +363,12 @@ class Report extends React.Component{
             :
             ""
         ;
+        /** This ternary statement will render the file input mismatch based on state boolean value. */
+        const CoDError = this.state.CoDError ?
+            <p id="CoDError">Warning: Please select a valid option</p>
+            :
+            ""
+        ;
         /** This section returns back the conditionally rendered components. */
         return(
             <div className="report">
@@ -381,6 +398,7 @@ class Report extends React.Component{
                             </select>
                         </fieldset>
                         {CoD}
+                        {CoDError}
                         <fieldset>
                             <legend>
                                 <h2><label htmlFor="notes">Notes</label></h2>

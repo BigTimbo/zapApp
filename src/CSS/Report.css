@@ -31,6 +31,10 @@
     color: red;
     font-weight: bold;
 }
+#CoDError{
+    color: red;
+    font-weight: bold;
+}
 .alertClose{
     position: fixed;
     top: 0;
