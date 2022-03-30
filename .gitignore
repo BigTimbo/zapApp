@@ -23,8 +23,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 /Not for Web/
-<<<<<<< HEAD
 /src/userImages/
-=======
-/src/userImages/
->>>>>>> parent of a07d3f0 (iamges > media gitignore)
+/appbuild/
