@@ -199,7 +199,7 @@ class Report extends React.Component{
      * @returns {Promise<Response>} Returns a POST HTTP request response.
      */
     async sendPost(data, controller){
-        return await fetch('https://ta459.brighton.domains/static/PHP/api.php', {
+        return await fetch('https://ta459.brighton.domains/zapapp/static/PHP/api.php', {
             controller,
             method: 'POST',
             body: data

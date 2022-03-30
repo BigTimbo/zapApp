@@ -19,7 +19,7 @@ import Sightings from "./pages/Sightings";
 function App() {
   return (
     <div className="App">
-        <Router>
+        <Router basename={'zapapp'}>
             <Header />
             <Routes>
                 <Route path="/" element={<Home />} />

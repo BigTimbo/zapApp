@@ -44,7 +44,7 @@ class Sightings extends React.Component {
                 /** Set the online state true */
                 this.setState({online: true})
                 /** Send a fetch request to API which returns back the GET response. */
-                const response = await fetch('https://ta459.brighton.domains/static/PHP/api.php', this.controller);
+                const response = await fetch('https://ta459.brighton.domains/zapapp/static/PHP/api.php', this.controller);
                 /** Check if response is OK. */
                 if (response.ok) {
                     /** Clear all previous locally stored content on key allSightings. */
@@ -109,7 +109,7 @@ class Sightings extends React.Component {
         /** Initialise content & mapContent arrays and baseURL string. */
         const content = [];
         const mapContent = [];
-        const baseURL = 'https://ta459.brighton.domains/static/userImages/';
+        const baseURL = 'https://ta459.brighton.domains/zapapp/static/userImages/';
         /** Check if JSON has header sightings. */
         if (json.sightings){
             /** For each iteration in sightings JSON. */

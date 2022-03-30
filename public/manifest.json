@@ -2,7 +2,7 @@
   "name" : "South Africa Pangolin Preservation App",
   "short_name": "Zap App",
   "description": "A Web app to the charity organisation of saving the Pangolin species in South Africa.",
-  "start_url": ".",
+  "start_url": "/zapapp/",
   "orientation" : "portrait",
   "display": "standalone",
   "theme_color": "#FFFFFF",
